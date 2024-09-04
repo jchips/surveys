@@ -8,13 +8,15 @@ import {
   CheckBox,
   Keyboard,
 } from 'react-native';
-// import CheckBox from '@react-native-community/checkbox';
 import RNPickerSelect from 'react-native-picker-select';
 import { useForm, Controller } from 'react-hook-form';
 import Constants from 'expo-constants';
 import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../../contexts/AuthContext';
+import app from '../../styles/default';
+import { FONTSIZE } from '../../styles/constants/styles';
+import COLORS from '../../styles/constants/colors';
 
 const SignupForm = ({ showToast }) => {
   const [error, setError] = useState('');
@@ -69,7 +71,7 @@ const SignupForm = ({ showToast }) => {
   return (
     <View style={styles.container}>
       {error ? (
-        <View style={styles.alertColor}>
+        <View style={app.errorAlert}>
           <Text>{error}</Text>
         </View>
       ) : null}
@@ -173,10 +175,15 @@ const SignupForm = ({ showToast }) => {
             />
           )}
         />
+        {errors.acl && (
+          <Text style={styles.errorText}>account type required</Text>
+        )}
       </View>
 
       <Pressable onPress={handleSubmit(onSubmit)} style={styles.button}>
-        <Text>Submit</Text>
+        <Text style={{ fontSize: FONTSIZE.regular, color: COLORS.white }}>
+          Submit
+        </Text>
       </Pressable>
     </View>
   );
@@ -190,6 +197,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   alertColor: {
+    // can delete
     backgroundColor: 'rgb(248, 215, 218)',
     padding: 16,
     borderRadius: 8,
@@ -207,7 +215,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'rgb(93, 95, 222)',
+    backgroundColor: COLORS.primary,
     borderRadius: 8,
     height: 48,
     justifyContent: 'center',

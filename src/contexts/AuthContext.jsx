@@ -9,6 +9,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
+  const [user, setUser] = useState({});
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [token, setToken] = useState(null);
 
@@ -28,6 +29,8 @@ export function AuthProvider({ children }) {
   };
 
   const value = {
+    user,
+    setUser,
     isSignedIn,
     setIsSignedIn,
     token,
