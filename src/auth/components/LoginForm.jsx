@@ -12,8 +12,13 @@ import Constants from 'expo-constants';
 import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../../contexts/AuthContext';
+import app from '../../styles/default';
+import COLORS from '../../styles/constants/colors';
+import { FONTSIZE } from '../../styles/constants/styles';
 
 const LoginForm = ({ showToast }) => {
+  const [error, setError] = useState('');
+  const { login, setIsSignedIn, setToken, setUser, user } = useAuth();
   const {
     control,
     handleSubmit,
@@ -25,8 +30,6 @@ const LoginForm = ({ showToast }) => {
       password: '',
     },
   });
-  const [error, setError] = useState('');
-  const { login, setIsSignedIn, setToken, token } = useAuth();
 
   const onSubmit = async (formData) => {
     try {
@@ -35,6 +38,8 @@ const LoginForm = ({ showToast }) => {
       axios.defaults.headers.common['Content-Type'] = 'application/json';
       let requestUrl = `${API_URL}/signin`;
       let response = await axios.post(requestUrl);
+      console.log('response:', response.data.user); // delete later
+      setUser(response.data.user);
       setToken(response.data.token);
       setError('');
       Keyboard.dismiss();
@@ -43,7 +48,11 @@ const LoginForm = ({ showToast }) => {
     } catch (error) {
       Keyboard.dismiss();
       setIsSignedIn(false);
-      setError('Incorrect username or password');
+      setError(
+        error.message === 'Request failed with status code 403'
+          ? 'Incorrect username or password'
+          : 'Sorry, there has been a server error :('
+      );
     }
     reset({
       username: '',
@@ -53,7 +62,7 @@ const LoginForm = ({ showToast }) => {
   return (
     <View style={styles.container}>
       {error ? (
-        <View style={styles.alertColor}>
+        <View style={app.errorAlert}>
           <Text>{error}</Text>
         </View>
       ) : null}
@@ -107,8 +116,8 @@ const LoginForm = ({ showToast }) => {
         )}
       </View>
 
-      <Pressable onPress={handleSubmit(onSubmit)} style={styles.button}>
-        <Text>Submit</Text>
+      <Pressable onPress={handleSubmit(onSubmit)} style={app.button}>
+        <Text style={app.buttonText}>Submit</Text>
       </Pressable>
     </View>
   );
@@ -116,13 +125,13 @@ const LoginForm = ({ showToast }) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 0.5,
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
     padding: 8,
     width: '100%',
   },
   alertColor: {
+    // can delete
     backgroundColor: 'rgb(248, 215, 218)',
     padding: 16,
     borderRadius: 8,
@@ -139,8 +148,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
+    // can delete
     alignItems: 'center',
-    backgroundColor: 'rgb(93, 95, 222)',
+    backgroundColor: COLORS.primary,
     borderRadius: 8,
     height: 48,
     justifyContent: 'center',

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import defaultStyles from '../styles/default';
+import app from '../styles/default';
 
 const Settings = () => {
   return (
-    <View style={defaultStyles.newPageText}>
+    <View style={app.newPageText}>
       <Text>Settings</Text>
     </View>
   );
