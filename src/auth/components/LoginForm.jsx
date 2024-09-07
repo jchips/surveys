@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
   Keyboard,
+  Platform,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Constants from 'expo-constants';
@@ -18,7 +19,8 @@ import { FONTSIZE } from '../../styles/constants/styles';
 
 const LoginForm = ({ showToast }) => {
   const [error, setError] = useState('');
-  const { login, setIsSignedIn, setToken, setUser, user } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, setIsSignedIn, setToken, setUser } = useAuth();
   const {
     control,
     handleSubmit,
@@ -33,6 +35,7 @@ const LoginForm = ({ showToast }) => {
 
   const onSubmit = async (formData) => {
     try {
+      setIsLoading(true);
       const encodedToken = login(formData.username, formData.password);
       axios.defaults.headers.common['Authorization'] = `Basic ${encodedToken}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -43,7 +46,7 @@ const LoginForm = ({ showToast }) => {
       setToken(response.data.token);
       setError('');
       Keyboard.dismiss();
-      showToast();
+      Platform.OS === 'android' ? showToast() : null;
       setIsSignedIn(true);
     } catch (error) {
       Keyboard.dismiss();
@@ -58,6 +61,7 @@ const LoginForm = ({ showToast }) => {
       username: '',
       password: '',
     });
+    setIsLoading(false);
   };
   return (
     <View style={styles.container}>
@@ -116,7 +120,11 @@ const LoginForm = ({ showToast }) => {
         )}
       </View>
 
-      <Pressable onPress={handleSubmit(onSubmit)} style={app.button}>
+      <Pressable
+        onPress={handleSubmit(onSubmit)}
+        style={app.button}
+        disabled={isLoading}
+      >
         <Text style={app.buttonText}>Submit</Text>
       </Pressable>
     </View>

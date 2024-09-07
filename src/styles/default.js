@@ -31,16 +31,19 @@ const app = StyleSheet.create({
   },
   text: {
     fontSize: FONTSIZE.regular,
-    marginVertical: 3
+    marginVertical: 3,
+    fontFamily: 'Lato-Regular',
+    lineHeight: 20
   },
   boldText: {
     color: COLORS.primary,
     fontWeight: '500',
+    fontFamily: 'Lato-Bold'
   },
   header: {
-    fontWeight: '700',
     fontSize: FONTSIZE.large,
-    margin: 10
+    margin: 10,
+    fontFamily: 'Lato-Bold'
   },
   icon: {
     height: 25,
@@ -57,6 +60,8 @@ const app = StyleSheet.create({
   buttonText: {
     color: COLORS.white,
     fontSize: FONTSIZE.regular,
+    fontFamily: 'Lato-Regular',
+    lineHeight: 20,
   },
   errorAlert: {
     backgroundColor: 'rgb(248, 215, 218)',
@@ -77,7 +82,13 @@ const app = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     textAlignVertical: 'top',
-  }
+  },
+  controllerContainer: {
+    margin: 10,
+  },
+  errorText: {
+    color: '#dc3545',
+  },
 });
 
 export default app;
