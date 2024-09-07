@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -30,9 +30,6 @@ const Signup = ({ navigation }) => {
       >
         <Text>Already have an account? Log in</Text>
       </Pressable>
-      {/* <Pressable onPress={() => navigation.navigate('Log in')}>
-        <Text>Log in</Text>
-      </Pressable> */}
     </SafeAreaView>
   );
 };

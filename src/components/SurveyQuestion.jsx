@@ -13,6 +13,7 @@ import { useForm, Controller } from 'react-hook-form';
 import app from '../styles/default';
 import COLORS from '../styles/constants/colors';
 import { BORDER } from '../styles/constants/styles';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const SurveyQuestion = (props) => {
   const { control, errors, questionIndex } = props;

@@ -31,6 +31,7 @@ const BottomTabs = ({ navigation }) => {
         tabBarLabelPosition: 'below-icon',
         tabBarLabelStyle: {
           fontWeight: '700',
+          // fontFamily: 'Lato-Bold',
           fontSize: 12,
           color: COLORS.primary,
         },
@@ -85,7 +86,7 @@ const BottomTabs = ({ navigation }) => {
               style={app.icon}
             />
           ),
-          headerTitle: `${user.username} profile`,
+          headerTitle: `@${user.username}`,
           ...headerOptions,
         }}
       />

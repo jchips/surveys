@@ -8,25 +8,6 @@ import app from '../styles/default';
 const Profile = () => {
   const { user, logout } = useAuth();
 
-  /**
-   * Formats the date/time the post was created into nice readable text.
-   * @param {Date} date - A date in UTC time (the date/time the post was created).
-   * @returns {String} - The date/time the post was created.
-   */
-  // const formatDate = (date) => {
-  //   let timeElapsed = new Date(date);
-  //   let formattedDate = timeElapsed.toLocaleDateString('en-us', {
-  //     year: 'numeric',
-  //     month: 'short',
-  //     day: 'numeric',
-  //   });
-  //   let formattedTime = timeElapsed.toLocaleTimeString('en-US', {
-  //     hour: 'numeric',
-  //     minute: '2-digit',
-  //   });
-  //   return formattedDate + ', ' + formattedTime;
-  // };
-
   return (
     <View style={app.container}>
       <View style={{ ...app.card, fontSize: FONTSIZE.regular }}>
@@ -38,8 +19,7 @@ const Profile = () => {
           />
         </View>
         <Text style={app.text}>
-          <Text style={app.boldText}>Username: </Text>
-          {user.username}
+          <Text style={app.boldText}>Username: </Text>@{user.username}
         </Text>
         <Text style={app.text}>
           <Text style={app.boldText}>Account type: </Text>

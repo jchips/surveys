@@ -28,9 +28,9 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/Lato-Regular.ttf",
-            "./assets/Lato-Bold.ttf",
-            "./assets/NunitoSans.ttf"
+            "./assets/fonts/Lato-Regular.ttf",
+            "./assets/fontsLato-Bold.ttf",
+            "./assets/fonts/NunitoSans.ttf"
           ]
         }
       ]

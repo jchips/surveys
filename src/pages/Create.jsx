@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -9,13 +8,15 @@ import {
   TextInput,
   Keyboard,
   ToastAndroid,
+  Platform,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
-import app from '../styles/default';
 import SurveyQuestion from '../components/SurveyQuestion';
+import app from '../styles/default';
 import { BORDER } from '../styles/constants/styles';
 import COLORS from '../styles/constants/colors';
 
@@ -49,29 +50,39 @@ const Create = ({ navigation }) => {
       setIsLoading(true);
       setError('');
       Keyboard.dismiss();
-      let questions = [formData.surveyQuestion1];
-      let multiChoiceOptions = [];
+      let questions = [
+        {
+          question: formData.surveyQuestion1,
+          responseType: formData.responseType1,
+        },
+      ];
       if (formData.surveyQuestion2) {
-        questions.push(formData.surveyQuestion2);
+        questions.push({
+          question: formData.surveyQuestion2,
+          responseType: formData.responseType2,
+        });
       }
       if (formData.surveyQuestion3) {
-        questions.push(formData.surveyQuestion3);
+        questions.push({
+          question: formData.surveyQuestion3,
+          responseType: formData.responseType3,
+        });
       }
       if (formData.multiChoiceOptions1) {
-        multiChoiceOptions.push(formData.multiChoiceOptions1);
+        questions[0].multiChoiceOptions = formData.multiChoiceOptions1;
       }
       if (formData.multiChoiceOptions2) {
-        multiChoiceOptions.push(formData.multiChoiceOptions2);
+        questions[1].multiChoiceOptions = formData.multiChoiceOptions2;
       }
       if (formData.multiChoiceOptions3) {
-        multiChoiceOptions.push(formData.multiChoiceOptions3);
+        questions[2].multiChoiceOptions = formData.multiChoiceOptions3;
       }
 
       const surveyBody = {
-        uid: user.id,
+        createdBy: user.username,
         title: formData.surveyTitle,
         questions: questions,
-        multiChoiceOptions: multiChoiceOptions,
+        responders: [],
       };
       console.log('formData:', surveyBody); // delete later
       axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
@@ -79,7 +90,7 @@ const Create = ({ navigation }) => {
       let requestUrl = `${API_URL}/surveys`;
       await axios.post(requestUrl, surveyBody);
       navigation.navigate('Surveys');
-      showToast();
+      Platform.OS === 'android' ? showToast() : null;
       reset({
         surveyTitle: '',
         surveyQuestion1: '',
@@ -95,13 +106,13 @@ const Create = ({ navigation }) => {
     } catch (error) {
       Keyboard.dismiss();
       setError('Failed to post survey');
-      console.log('error:', error.message);
+      console.error('error:', error.message);
     }
     setIsLoading(false);
   };
 
   return (
-    <SafeAreaView style={app.container}>
+    <KeyboardAwareScrollView style={app.container}>
       {error ? (
         <View style={app.errorAlert}>
           <Text>{error}</Text>
@@ -164,7 +175,7 @@ const Create = ({ navigation }) => {
       >
         <Text style={app.buttonText}>Post survey</Text>
       </Pressable>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };
 

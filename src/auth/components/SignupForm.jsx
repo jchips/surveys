@@ -5,8 +5,8 @@ import {
   View,
   Pressable,
   TextInput,
-  CheckBox,
   Keyboard,
+  Platform,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { useForm, Controller } from 'react-hook-form';
@@ -20,7 +20,8 @@ import COLORS from '../../styles/constants/colors';
 
 const SignupForm = ({ showToast }) => {
   const [error, setError] = useState('');
-  const { login, setIsSignedIn, setToken, token } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const { login, setIsSignedIn, setToken, setUser } = useAuth();
   const {
     control,
     handleSubmit,
@@ -37,6 +38,7 @@ const SignupForm = ({ showToast }) => {
 
   const onSubmit = async (formData) => {
     try {
+      setIsLoading(true);
       if (formData.password !== formData.confirmPassword) {
         return setError('Passwords do not match');
       }
@@ -48,16 +50,17 @@ const SignupForm = ({ showToast }) => {
       };
       console.log('formData:', newUserBody); // delete later
 
-      // const encodedToken = login(formData.username, formData.password);
-      // axios.defaults.headers.common['Authorization'] = `Basic ${encodedToken}`;
-      // axios.defaults.headers.common['Content-Type'] = 'application/json';
       let requestUrl = `${API_URL}/signup`;
       let response = await axios.post(requestUrl, newUserBody);
-      // setToken(response.data.token);
+
+      if (response.data.message) {
+        return setError(response.data.message);
+      }
+      await logUserIn(formData);
+
+      Platform.OS === 'android' ? showToast() : null;
       setError('');
       Keyboard.dismiss();
-      showToast();
-      // setIsSignedIn(true);
     } catch (error) {
       Keyboard.dismiss();
       setIsSignedIn(false);
@@ -66,7 +69,26 @@ const SignupForm = ({ showToast }) => {
     reset({
       username: '',
       password: '',
+      acl: '',
     });
+    setIsLoading(false);
+  };
+
+  const logUserIn = async (formData) => {
+    try {
+      setError('');
+      const encodedToken = login(formData.username, formData.password);
+      axios.defaults.headers.common['Authorization'] = `Basic ${encodedToken}`;
+      axios.defaults.headers.common['Content-Type'] = 'application/json';
+      let requestUrl = `${API_URL}/signin`;
+      let response = await axios.post(requestUrl);
+      setUser(response.data.user);
+      setToken(response.data.token);
+      setIsSignedIn(true);
+    } catch (error) {
+      setIsSignedIn(false);
+      setError('Failed to log in');
+    }
   };
   return (
     <View style={styles.container}>
@@ -92,6 +114,7 @@ const SignupForm = ({ showToast }) => {
               value={value}
               style={styles.input}
               autoCapitalize='none'
+              maxLength={15}
               autoCorrect={false}
             />
           )}
@@ -180,9 +203,13 @@ const SignupForm = ({ showToast }) => {
         )}
       </View>
 
-      <Pressable onPress={handleSubmit(onSubmit)} style={styles.button}>
+      <Pressable
+        onPress={handleSubmit(onSubmit)}
+        style={styles.button}
+        disabled={isLoading}
+      >
         <Text style={{ fontSize: FONTSIZE.regular, color: COLORS.white }}>
-          Submit
+          Sign up
         </Text>
       </Pressable>
     </View>
