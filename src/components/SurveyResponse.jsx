@@ -103,7 +103,7 @@ const SurveyResponse = ({ navigation, route }) => {
     setIsLoading(false);
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={app.container}>
       {error ? (
         <View style={app.errorAlert}>
           <Text>{error}</Text>

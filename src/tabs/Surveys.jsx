@@ -40,7 +40,14 @@ const Surveys = ({ navigation }) => {
   const renderItem = ({ item }) => {
     const questions = item.questions;
     return (
-      <Pressable style={styles.item} onPress={() => {}}>
+      <Pressable
+        style={styles.item}
+        onPress={() => {
+          navigation.navigate('Responses', {
+            survey: item,
+          });
+        }}
+      >
         <View style={app.card}>
           <Text
             style={{
@@ -74,7 +81,7 @@ const Surveys = ({ navigation }) => {
   };
 
   return !isLoading ? (
-    <View style={{ ...app.container }}>
+    <View style={app.container}>
       {error ? (
         <View style={app.errorAlert}>
           <Text>{error}</Text>
