@@ -11,6 +11,7 @@ import Respond from '../pages/Respond';
 import BottomTabs from '../components/BottomTabs';
 import COLORS from '../styles/constants/colors';
 import SurveyResponse from '../components/SurveyResponse';
+import Responses from '../pages/Responses';
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ const Routing = () => {
               options={{ headerTitle: 'Survey response' }}
             />
             <Stack.Screen name='SurveyResponse' component={SurveyResponse} />
+            <Stack.Screen name='Responses' component={Responses} />
           </>
         ) : (
           <>

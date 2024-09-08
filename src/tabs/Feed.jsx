@@ -45,6 +45,7 @@ const Feed = ({ navigation }) => {
         }}
       >
         <View style={app.card}>
+          {/* Survey title */}
           <Text
             style={{
               ...app.header,
@@ -56,11 +57,15 @@ const Feed = ({ navigation }) => {
           >
             {item.title}
           </Text>
+
+          {/* Survey description */}
           <Text style={{ ...styles.descriptionText, fontFamily: FONT.regular }}>
             {questions[0].question.length > 50
               ? `${questions[0].question.substring(0, 50)}...`
               : questions[0].question}
           </Text>
+
+          {/* Author and date */}
           <Text
             style={{
               ...styles.descriptionText,
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     color: '#808080',
     marginVertical: 3,
+    lineHeight: 20,
   },
 });
 
