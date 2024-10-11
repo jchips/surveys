@@ -8,7 +8,7 @@ import Signup from '../auth/Signup';
 import Settings from '../pages/Settings';
 import Create from '../pages/Create';
 import Respond from '../pages/Respond';
-import BottomTabs from '../components/BottomTabs';
+import BottomTabs from './BottomTabs';
 import COLORS from '../styles/constants/colors';
 import SurveyResponse from '../components/SurveyResponse';
 import Responses from '../pages/Responses';

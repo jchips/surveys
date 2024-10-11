@@ -36,6 +36,12 @@ const app = StyleSheet.create({
     fontFamily: 'Lato-Regular',
     lineHeight: 20
   },
+  smallText: {
+    fontSize: FONTSIZE.small,
+    marginVertical: 1,
+    fontFamily: 'Lato-Regular',
+    lineHeight: 20
+  },
   boldText: {
     color: COLORS.primary,
     fontWeight: '500',

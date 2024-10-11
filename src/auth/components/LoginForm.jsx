@@ -56,6 +56,8 @@ const LoginForm = ({ showToast }) => {
           ? 'Incorrect username or password'
           : 'Sorry, there has been a server error :('
       );
+      console.error(error);
+      console.error(error.message);
     }
     reset({
       username: '',
