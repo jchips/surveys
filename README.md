@@ -4,7 +4,7 @@ A mobile app for IOS and Android where users can post and respond to survey ques
 
 ## Author: Jelani R
 
-## Version: 0.0.6
+## Version: 0.0.7
 
 ## Architecture
 
@@ -24,6 +24,7 @@ The backend for this project is [here](https://github.com/Jchips/surveys-api).
 
 ## Changelog
 
+- 0.0.7 (10-10-2024, 6:58pm) - Users can permanently remove surveys from their feed.
 - 0.0.6 (09-08-2024, 2:03pm) - Users can view responses to their created surveys.
 - 0.0.5 (09-06-2024, 6:49pm) - Users can respond to surveys.
 - 0.0.2 (09-04-2024, timeam) - Profile, Settings, Surveys page. User can create surveys if they have an account type of creator (or admin).
