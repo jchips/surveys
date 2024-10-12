@@ -6,14 +6,15 @@ import {
   FlatList,
   Pressable,
   Image,
-  Alert,
-  Modal,
+  Platform,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
+import ModalView from '../components/ModalView';
 import formatDate from '../util/formatDate';
+import showToast from '../util/showToast';
 import app from '../styles/default';
 import COLORS from '../styles/constants/colors';
 import { BORDER, FONT, FONTSIZE } from '../styles/constants/styles';
@@ -64,9 +65,12 @@ const Feed = ({ navigation }) => {
         1
       );
       setSurveys(surveysCopy);
+      Platform.OS === 'android'
+        ? showToast('Removed survey successfully')
+        : null;
     } catch (error) {
       console.error(error);
-      setError('Failed to remove survey');
+      setError('Failed to remove survey. Please try again later.');
     }
   };
 
@@ -83,17 +87,7 @@ const Feed = ({ navigation }) => {
         <View style={app.card}>
           {/* Survey title */}
           <View style={styles.cardTitle}>
-            <Text
-              style={{
-                ...app.header,
-                margin: 0,
-                marginBottom: 3,
-                fontFamily: FONT.bold,
-                fontWeight: 'normal',
-              }}
-            >
-              {item.title}
-            </Text>
+            <Text style={styles.cardHeader}>{item.title}</Text>
             <Pressable
               onPress={() => {
                 setSelectedSurvey(item);
@@ -118,14 +112,7 @@ const Feed = ({ navigation }) => {
           </Text>
 
           {/* Author and date */}
-          <Text
-            style={{
-              ...styles.descriptionText,
-              color: COLORS.primary,
-              fontFamily: FONT.bold,
-              fontSize: FONTSIZE.small,
-            }}
-          >
+          <Text style={[styles.descriptionText, styles.cardFooter]}>
             @{item.createdBy} | {formatDate(item.createdAt)}
           </Text>
         </View>
@@ -152,44 +139,13 @@ const Feed = ({ navigation }) => {
       )}
 
       {selectedSurvey ? (
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={viewModal}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setViewModal(!viewModal);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={app.text}>
-                Remove <Text style={app.boldText}>{selectedSurvey.title}</Text>{' '}
-                survey?
-              </Text>
-              <Text style={app.smallText}>(This cannot be undone)</Text>
-              <View style={styles.buttons}>
-                <Pressable
-                  style={[app.button, styles.button, styles.backButton]}
-                  onPress={() => setViewModal(!viewModal)}
-                >
-                  <Text style={{ ...app.buttonText, color: '#000' }}>
-                    Cancel
-                  </Text>
-                </Pressable>
-                <Pressable
-                  style={[app.button, styles.button]}
-                  onPress={() => {
-                    removeSurvey(selectedSurvey);
-                    setViewModal(!viewModal);
-                  }}
-                >
-                  <Text style={app.buttonText}>Remove</Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-        </Modal>
+        <ModalView
+          actionText='Remove'
+          submitAction={removeSurvey}
+          selectedSurvey={selectedSurvey}
+          viewModal={viewModal}
+          setViewModal={setViewModal}
+        />
       ) : null}
     </View>
   );
@@ -200,47 +156,28 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     width: '100%',
   },
-  descriptionText: {
-    color: '#808080',
-    marginVertical: 3,
-    lineHeight: 20,
+  cardHeader: {
+    ...app.header,
+    margin: 0,
+    marginBottom: 3,
+    fontFamily: FONT.bold,
+    fontWeight: 'normal',
+    lineHeight: 20, // can delete if preferred
   },
   cardTitle: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  button: {
-    width: '45%',
+  descriptionText: {
+    color: '#808080',
+    marginVertical: 3,
+    lineHeight: 20,
   },
-  backButton: {
-    backgroundColor: COLORS.lightBG,
-  },
-  buttons: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    margin: 10,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: COLORS.white,
-    borderRadius: BORDER.radius,
-    padding: 30,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+  cardFooter: {
+    color: COLORS.primary,
+    fontFamily: FONT.bold,
+    fontSize: FONTSIZE.small,
   },
 });
 

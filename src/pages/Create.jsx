@@ -7,7 +7,6 @@ import {
   View,
   TextInput,
   Keyboard,
-  ToastAndroid,
   Platform,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
@@ -16,6 +15,7 @@ import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import SurveyQuestion from '../components/SurveyQuestion';
+import showToast from '../util/showToast';
 import app from '../styles/default';
 import { BORDER } from '../styles/constants/styles';
 import COLORS from '../styles/constants/colors';
@@ -36,14 +36,6 @@ const Create = ({ navigation }) => {
       responseType: 'text',
     },
   });
-
-  const showToast = () => {
-    ToastAndroid.showWithGravity(
-      'Survey posted',
-      ToastAndroid.SHORT,
-      ToastAndroid.BOTTOM
-    );
-  };
 
   const onSubmit = async (formData) => {
     try {
@@ -84,13 +76,13 @@ const Create = ({ navigation }) => {
         questions: questions,
         responders: [],
       };
-      console.log('formData:', surveyBody); // delete later
+      // console.log('formData:', surveyBody); // delete later
       axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
       let requestUrl = `${API_URL}/surveys`;
       await axios.post(requestUrl, surveyBody);
       navigation.navigate('Surveys');
-      Platform.OS === 'android' ? showToast() : null;
+      Platform.OS === 'android' ? showToast('Survey posted') : null;
       reset({
         surveyTitle: '',
         surveyQuestion1: '',

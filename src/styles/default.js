@@ -50,7 +50,7 @@ const app = StyleSheet.create({
   header: {
     fontSize: FONTSIZE.large,
     margin: 10,
-    fontFamily: 'Lato-Bold'
+    fontFamily: 'Lato-Bold',
   },
   icon: {
     height: 25,

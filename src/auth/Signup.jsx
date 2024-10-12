@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  ToastAndroid,
-  Pressable,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Pressable } from 'react-native';
 import SignupForm from './components/SignupForm';
+import showToast from '../util/showToast';
 
 const Signup = ({ navigation }) => {
-  function showToast() {
-    ToastAndroid.showWithGravity(
-      'Sign up successful',
-      ToastAndroid.SHORT,
-      ToastAndroid.BOTTOM
-    );
-  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Sign up</Text>

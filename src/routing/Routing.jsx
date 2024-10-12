@@ -13,6 +13,7 @@ import SurveyResponse from '../components/SurveyResponse';
 import Responses from '../pages/Responses';
 import Graph from '../pages/Graph';
 import COLORS from '../styles/constants/colors';
+import Error from '../pages/Error';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,7 @@ const Routing = () => {
             />
             <Stack.Screen name='SurveyResponse' component={SurveyResponse} />
             <Stack.Screen name='Responses' component={Responses} />
+            <Stack.Screen name='Error' component={Error} />
           </>
         ) : (
           <>

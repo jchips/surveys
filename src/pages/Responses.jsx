@@ -19,6 +19,7 @@ const ViewResponse = ({ navigation, route }) => {
     navigation.setOptions({ headerTitle: survey.title });
   }, [navigation]);
 
+  // Loads all responses to selected survey.
   useFocusEffect(
     React.useCallback(() => {
       const fetchResponses = async () => {
@@ -30,7 +31,7 @@ const ViewResponse = ({ navigation, route }) => {
           axios.defaults.headers.common['Content-Type'] = 'application/json';
           const requestUrl = `${API_URL}/responses/${survey.id}`;
           let response = await axios.get(requestUrl);
-          setResponses(response.data.reverse());
+          setResponses(response.data);
         } catch (error) {
           console.error('error:', error.message);
           setError('Failed to fetch responses');
@@ -110,7 +111,7 @@ const ViewResponse = ({ navigation, route }) => {
         </View>
       ) : null}
       <View style={styles.headerContainer}>
-        <Text style={app.header}>{survey.title} Responses</Text>
+        <Text style={app.header}>{survey.title} responses</Text>
         <Text style={app.boldText}>
           {responses.length === 1
             ? responses.length + ' response'

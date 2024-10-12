@@ -25,7 +25,7 @@ const Respond = ({ navigation, route }) => {
     defaultValues: {},
   });
 
-  return (
+  return itemId ? (
     <View style={app.container}>
       <View style={app.card}>
         <Text style={[app.header, styles.title]}>{itemId.title} survey</Text>
@@ -69,6 +69,8 @@ const Respond = ({ navigation, route }) => {
         <Text style={app.buttonText}>Start survey</Text>
       </Pressable>
     </View>
+  ) : (
+    navigation.navigate('Error')
   );
 };
 
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: FONTSIZE.xlarge,
     marginTop: 0,
+    lineHeight: 25,
   },
   text: {
     marginHorizontal: 10,

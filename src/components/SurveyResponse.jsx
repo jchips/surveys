@@ -7,7 +7,6 @@ import {
   Pressable,
   Keyboard,
   Platform,
-  ToastAndroid,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -15,6 +14,7 @@ import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import TextResponse from './TextResponse';
 import MultiChoiceResponse from './MultiChoiceResponse';
+import showToast from '../util/showToast';
 import app from '../styles/default';
 
 const SurveyResponse = ({ navigation, route }) => {
@@ -45,6 +45,7 @@ const SurveyResponse = ({ navigation, route }) => {
     },
   });
 
+  // Clears the inputs when navigating to next survey response page.
   useEffect(() => {
     navigation.setOptions({ headerTitle: surveyTitle + ' Question ' + index });
     responseIndex
@@ -54,14 +55,11 @@ const SurveyResponse = ({ navigation, route }) => {
       : null;
   }, [navigation, index, responseIndex, formData]);
 
-  const showToast = () => {
-    ToastAndroid.showWithGravity(
-      'Response submitted',
-      ToastAndroid.SHORT,
-      ToastAndroid.BOTTOM
-    );
-  };
-
+  /**
+   * Navigates to the next page in the survey and sends the latest
+   * survey response data along.
+   * @param {Object} data - The most updated survey response data.
+   */
   const onNext = (data) => {
     navigation.push('SurveyResponse', {
       formData: { ...formData, ...data },
@@ -75,6 +73,10 @@ const SurveyResponse = ({ navigation, route }) => {
     });
   };
 
+  /**
+   * Submits the survey response.
+   * @param {Object} data - The most updated survey response data.
+   */
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
@@ -85,7 +87,7 @@ const SurveyResponse = ({ navigation, route }) => {
         createdBy,
         response: finalFormData,
       };
-      console.log('responseBody:', responseBody); // delete later
+      // console.log('responseBody:', responseBody); // delete later
       axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
       let requestURL1 = `${API_URL}/responses`;
@@ -94,10 +96,10 @@ const SurveyResponse = ({ navigation, route }) => {
       await axios.patch(requestURL2, { responder: user.id });
       Keyboard.dismiss();
       navigation.navigate('Feed');
-      Platform.OS === 'android' ? showToast() : null;
+      Platform.OS === 'android' ? showToast('Response submitted') : null;
     } catch (error) {
       Keyboard.dismiss();
-      setError('Failed to submit response');
+      setError('Failed to submit response. Please try again later.');
       console.error('error:', error.message);
     }
     setIsLoading(false);
@@ -123,29 +125,21 @@ const SurveyResponse = ({ navigation, route }) => {
           choices={question.multiChoiceOptions.split(',')}
         />
       )}
-      {questions[index] ? (
-        <View style={styles.buttons}>
-          <Pressable
-            style={[app.button, styles.button]}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={app.buttonText}>Back</Text>
-          </Pressable>
+      <View style={styles.buttons}>
+        <Pressable
+          style={[app.button, styles.button]}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={app.buttonText}>Back</Text>
+        </Pressable>
+        {questions[index] ? (
           <Pressable
             style={[app.button, styles.button]}
             onPress={handleSubmit(onNext)}
           >
             <Text style={app.buttonText}>Next question</Text>
           </Pressable>
-        </View>
-      ) : (
-        <View style={styles.buttons}>
-          <Pressable
-            style={[app.button, styles.button]}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={app.buttonText}>Back</Text>
-          </Pressable>
+        ) : (
           <Pressable
             style={[app.button, styles.button]}
             onPress={handleSubmit(onSubmit)}
@@ -153,8 +147,8 @@ const SurveyResponse = ({ navigation, route }) => {
           >
             <Text style={app.buttonText}>Submit response</Text>
           </Pressable>
-        </View>
-      )}
+        )}
+      </View>
     </SafeAreaView>
   );
 };
