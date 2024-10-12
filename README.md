@@ -6,6 +6,8 @@ A mobile app for IOS and Android where users can post and respond to survey ques
 
 ## Version: 0.1.0
 
+<img src='./assets/icon.png' alt='Surveys app icon' width='200'/>
+
 ## Architecture
 
 This project is built with React Native using Expo. The language used is JavaScript.
@@ -26,6 +28,7 @@ The backend for this project is [here](https://github.com/Jchips/surveys-api).
 
 ## Changelog
 
+- 0.1.1 (10-12-2024, 2:40am) - Creators can now delete surveys that they created. This will delete the survey for everyone.
 - 0.1.0 (10-11-2024, 8:31pm) - Users can view the results of the multi-choice questions as a pie graph.
 - 0.0.7 (10-10-2024, 6:58pm) - Users can permanently remove surveys from their feed.
 - 0.0.6 (09-08-2024, 2:03pm) - Users can view responses to their created surveys.

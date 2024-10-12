@@ -48,7 +48,7 @@ const SignupForm = ({ showToast }) => {
         password: formData.password,
         role: formData.acl,
       };
-      console.log('formData:', newUserBody); // delete later
+      // console.log('formData:', newUserBody); // delete later
 
       let requestUrl = `${API_URL}/signup`;
       let response = await axios.post(requestUrl, newUserBody);
@@ -58,7 +58,7 @@ const SignupForm = ({ showToast }) => {
       }
       await logUserIn(formData);
 
-      Platform.OS === 'android' ? showToast() : null;
+      Platform.OS === 'android' ? showToast('Sign up successful') : null;
       setError('');
       Keyboard.dismiss();
     } catch (error) {

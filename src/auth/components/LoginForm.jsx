@@ -41,12 +41,12 @@ const LoginForm = ({ showToast }) => {
       axios.defaults.headers.common['Content-Type'] = 'application/json';
       let requestUrl = `${API_URL}/signin`;
       let response = await axios.post(requestUrl);
-      console.log('response:', response.data.user); // delete later
+      // console.log('response:', response.data.user); // delete later
       setUser(response.data.user);
       setToken(response.data.token);
       setError('');
       Keyboard.dismiss();
-      Platform.OS === 'android' ? showToast() : null;
+      Platform.OS === 'android' ? showToast('Log in successful') : null;
       setIsSignedIn(true);
     } catch (error) {
       Keyboard.dismiss();
@@ -113,6 +113,7 @@ const LoginForm = ({ showToast }) => {
               textContentType='password'
               autoCapitalize='none'
               autoCorrect={false}
+              onSubmitEditing={handleSubmit(onSubmit)}
               secureTextEntry
             />
           )}
