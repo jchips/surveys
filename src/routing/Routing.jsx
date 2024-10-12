@@ -9,9 +9,10 @@ import Settings from '../pages/Settings';
 import Create from '../pages/Create';
 import Respond from '../pages/Respond';
 import BottomTabs from './BottomTabs';
-import COLORS from '../styles/constants/colors';
 import SurveyResponse from '../components/SurveyResponse';
 import Responses from '../pages/Responses';
+import Graph from '../pages/Graph';
+import COLORS from '../styles/constants/colors';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,11 @@ const Routing = () => {
               name='Respond'
               component={Respond}
               options={{ headerTitle: 'Survey response' }}
+            />
+            <Stack.Screen
+              name='Graph'
+              component={Graph}
+              options={{ headerTitle: 'Graphs' }}
             />
             <Stack.Screen name='SurveyResponse' component={SurveyResponse} />
             <Stack.Screen name='Responses' component={Responses} />

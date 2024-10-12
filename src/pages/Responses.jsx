@@ -4,8 +4,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
-import app from '../styles/default';
 import formatDate from '../util/formatDate';
+import app from '../styles/default';
 import COLORS from '../styles/constants/colors';
 import { BORDER, FONTSIZE } from '../styles/constants/styles';
 
@@ -40,6 +40,29 @@ const ViewResponse = ({ navigation, route }) => {
     }, [])
   );
 
+  /**
+   * Displays the questions with the responders' response.
+   * @param {Object} question - The question object.
+   * @param {String} textResponse - The text input response to the question.
+   * @param {Integer} radioResponse - The index of the radio response to the question.
+   * @returns {Element} - An element displaying the question with the response.
+   */
+  const qAndResponse = (question, textResponse, radioResponse) => {
+    return (
+      <>
+        <Text style={[app.boldText, styles.boldText]}>{question.question}</Text>
+        {(textResponse || radioResponse !== null) && (
+          <Text style={app.text}>
+            {textResponse
+              ? textResponse
+              : question.multiChoiceOptions.split(',')[radioResponse]}
+          </Text>
+        )}
+      </>
+    );
+  };
+
+  // Response card
   const renderItem = ({ item }) => {
     return (
       <View style={[app.card, styles.card]}>
@@ -49,53 +72,26 @@ const ViewResponse = ({ navigation, route }) => {
             {item.response.username}
           </Text>
         </View>
-        {/* TODO: make more DRY */}
         <View style={styles.cardBody}>
-          <Text style={[app.boldText, styles.boldText]}>
-            {survey.questions[0].question}
-          </Text>
-          <Text style={app.text}>
-            {item.response.textResponse1
-              ? item.response.textResponse1
-              : survey.questions[0].multiChoiceOptions.split(',')[
-                  item.response.radioGroup1
-                ]}
-          </Text>
-          {survey.questions[1] ? (
-            <>
-              <Text style={[app.boldText, styles.boldText]}>
-                {survey.questions[1].question}
-              </Text>
-              {item.response.textResponse2 ||
-              item.response.radioGroup2 !== null ? (
-                <Text style={app.text}>
-                  {item.response.textResponse2
-                    ? item.response.textResponse2
-                    : survey.questions[1].multiChoiceOptions.split(',')[
-                        item.response.radioGroup2
-                      ]}
-                </Text>
-              ) : null}
-            </>
-          ) : null}
-          {survey.questions[2] ? (
-            <>
-              <Text style={[app.boldText, styles.boldText]}>
-                {survey.questions[2].question}
-              </Text>
-
-              {item.response.textResponse3 ||
-              item.response.radioGroup3 !== null ? (
-                <Text style={app.text}>
-                  {item.response.textResponse3
-                    ? item.response.textResponse3
-                    : survey.questions[2].multiChoiceOptions.split(',')[
-                        item.response.radioGroup3
-                      ]}
-                </Text>
-              ) : null}
-            </>
-          ) : null}
+          {qAndResponse(
+            survey.questions[0],
+            item.response.textResponse1,
+            item.response.radioGroup1
+          )}
+          {survey.questions[1]
+            ? qAndResponse(
+                survey.questions[1],
+                item.response.textResponse2,
+                item.response.radioGroup2
+              )
+            : null}
+          {survey.questions[2]
+            ? qAndResponse(
+                survey.questions[2],
+                item.response.textResponse3,
+                item.response.radioGroup3
+              )
+            : null}
         </View>
         <View style={{ marginTop: 10 }}>
           <Text style={{ ...app.boldText, fontSize: FONTSIZE.small }}>
@@ -127,9 +123,14 @@ const ViewResponse = ({ navigation, route }) => {
         numColumns={1}
         keyExtractor={(item) => item.id}
       />
-      <Pressable style={app.button}>
-        <Text style={app.buttonText}>View responses as pie graph</Text>
-      </Pressable>
+      {responses.length > 0 ? (
+        <Pressable
+          style={app.button}
+          onPress={() => navigation.navigate('Graph', { responses, survey })}
+        >
+          <Text style={app.buttonText}>View responses as pie graph</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 };
