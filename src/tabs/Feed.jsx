@@ -46,14 +46,17 @@ const Feed = ({ navigation }) => {
     }, [])
   );
 
+  /**
+   * Removes a survey from the current user's feed.
+   * @param {Object} survey - Survey to remove from feed.
+   */
   const removeSurvey = async (survey) => {
     try {
       setError('');
       axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
       const requestUrl = `${API_URL}/remove`;
-      console.log('remove', survey);
-      let reqBody = { user_id: user.id, post_id: survey.id };
+      let reqBody = { user_id: user.id, survey_id: survey.id };
       await axios.post(requestUrl, reqBody);
       let surveysCopy = [...surveys];
       surveysCopy.splice(
@@ -67,6 +70,7 @@ const Feed = ({ navigation }) => {
     }
   };
 
+  // Survey card
   const renderItem = ({ item }) => {
     const questions = item.questions;
     return (
