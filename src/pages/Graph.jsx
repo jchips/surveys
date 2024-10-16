@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Switch,
+  Platform,
+} from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import app from '../styles/default';
-import { BORDER, FONTSIZE } from '../styles/constants/styles';
+import { BORDER, FONT, FONTSIZE } from '../styles/constants/styles';
 import COLORS from '../styles/constants/colors';
+import card from '../styles/card';
 
 const Graph = ({ route }) => {
   const { responses, survey } = route.params;
   const [multiChoiceQs, setMultiChoiceQs] = useState([]);
+  const [darkGraph, setDarkGraph] = useState(false);
+  const toggleSwitch = () => setDarkGraph((previousState) => !previousState);
 
   /**
    * Filters only the questions that are multiple choice
@@ -76,7 +86,14 @@ const Graph = ({ route }) => {
             backgroundColor: color || 'white',
           }}
         />
-        <Text style={styles.legendText}>{text || ''}</Text>
+        <Text
+          style={{
+            ...styles.legendText,
+            color: !darkGraph ? '#000' : COLORS.lightBG,
+          }}
+        >
+          {text || ''}
+        </Text>
       </View>
     );
   };
@@ -85,32 +102,63 @@ const Graph = ({ route }) => {
   const renderItem = ({ item, index }) => {
     let data = setUpData(index);
     return (
-      <View style={styles.graphCardContainer}>
-        <View style={styles.graphCard}>
-          <Text style={styles.graphCardTitle}>{item.question}</Text>
+      <View
+        style={{
+          ...styles.graphCardContainer,
+          backgroundColor: !darkGraph ? 'rgba(230, 0, 18, 0.8)' : '#34448B',
+        }}
+      >
+        <View
+          style={{
+            ...styles.graphCard,
+            backgroundColor: !darkGraph ? COLORS.white : '#232B5D',
+          }}
+        >
+          <Text
+            style={{
+              ...styles.graphCardTitle,
+              color: !darkGraph ? '#000' : COLORS.white,
+            }}
+          >
+            {item.question}
+          </Text>
           <View style={{ alignItems: 'center', marginVertical: 10 }}>
             <PieChart
               strokeColor='#ac000d' // not being used
               strokeWidth={0}
               donut
               data={data}
-              innerCircleColor='#232B5D'
+              innerCircleColor={!darkGraph ? COLORS.white : '#232B5D'}
               innerCircleBorderWidth={0}
               innerCircleBorderColor='#ac000d' // not being used
               showValuesAsLabels={true}
               showText
               textColor='#000'
-              font='Lato-Bold'
+              font={FONT.regular}
               textSize={FONTSIZE.regular}
               showTextBackground={true}
-              textBackgroundColor={COLORS.lightBG}
+              textBackgroundColor={!darkGraph ? COLORS.white : COLORS.lightBG}
               centerLabelComponent={() => {
                 return (
                   <View style={styles.graphInnerCircle}>
-                    <Text style={{ ...styles.text, fontSize: 36 }}>
+                    <Text
+                      style={{
+                        ...styles.text,
+                        fontSize: 36,
+                        color: !darkGraph ? '#000' : COLORS.white,
+                      }}
+                    >
                       {responses.length}
                     </Text>
-                    <Text style={{ ...styles.text, fontSize: 18 }}>Total</Text>
+                    <Text
+                      style={{
+                        ...styles.text,
+                        fontSize: 18,
+                        color: !darkGraph ? '#000' : COLORS.white,
+                      }}
+                    >
+                      Total
+                    </Text>
                   </View>
                 );
               }}
@@ -130,6 +178,17 @@ const Graph = ({ route }) => {
       <Text style={styles.subHeaderText}>
         {responses.length} response(s) total
       </Text>
+      <View style={styles.switch}>
+        <Switch
+          trackColor={{ false: '#767577', true: COLORS.secondary }}
+          thumbColor={COLORS.white}
+          ios_backgroundColor='#3e3e3e'
+          onValueChange={toggleSwitch}
+          value={darkGraph}
+          style={{ marginRight: Platform.OS === 'ios' ? 10 : null }}
+        />
+        <Text style={app.text}>dark theme</Text>
+      </View>
       {multiChoiceQs.length > 0 ? (
         <FlatList
           data={multiChoiceQs}
@@ -138,7 +197,13 @@ const Graph = ({ route }) => {
           keyExtractor={(item) => item.question}
         />
       ) : (
-        <Text style={app.text}>
+        <Text
+          style={{
+            ...app.text,
+            textAlign: 'center',
+            fontFamily: FONT.semiBold,
+          }}
+        >
           Can only create graphs for multi-choice questions.
         </Text>
       )}
@@ -157,30 +222,33 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 5,
   },
+  switch: {
+    flexDirection: 'row',
+    // margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   graphCardContainer: {
-    ...app.card,
+    ...card.container,
     flex: 1,
     marginVertical: 5,
-    borderWidth: 1,
-    borderColor: COLORS.lightBG,
-    backgroundColor: '#34448B',
+    padding: 10, // can delete
+    // borderWidth: 1,
+    // borderColor: COLORS.lightBG,
   },
   graphCard: {
     flex: 1,
     margin: 0,
     padding: 5,
     borderRadius: BORDER.radius,
-    backgroundColor: '#232B5D',
   },
   graphCardTitle: {
     ...app.boldText,
     fontSize: FONTSIZE.regular,
     padding: 10,
-    color: COLORS.white,
   },
   text: {
-    color: COLORS.white,
-    fontFamily: 'Lato-Regular',
+    fontFamily: FONT.regular,
   },
   graphInnerCircle: {
     flex: 1,
@@ -188,12 +256,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   legend: {
-    // flex: 1,
-    width: '100%',
     flexDirection: 'row',
-    // justifyContent: 'space-evenly',
     flexWrap: 'wrap',
+    paddingTop: 12,
     marginTop: 20,
+    margin: 3,
+    borderRadius: BORDER.radius,
+    // backgroundColor: COLORS.verylight,
   },
   legendItem: {
     flexDirection: 'row',
@@ -208,9 +277,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   legendText: {
-    color: COLORS.lightBG,
-    fontSize: FONTSIZE.regular,
-    fontFamily: 'Lato-Regular',
+    fontSize: FONTSIZE.small,
+    fontFamily: FONT.regular,
   },
 });
 

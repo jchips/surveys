@@ -1,13 +1,16 @@
 const FONT = {
-  bold: 'Lato-Bold',
-  regular: 'Lato-Regular',
+  extraBold: 'Inter-ExtraBold',
+  bold: 'Inter-Bold',
+  semiBold: 'Inter-SemiBold',
+  regular: 'Inter-Regular',
 }
 
 const FONTSIZE = {
-  xlarge: 25,
-  large: 20,
-  regular: 15,
-  small: 12
+  xlarge: 20, // 25
+  large: 18, // 20
+  regular: 15, // 13
+  small: 13,
+  xsmall: 10 // 8
 }
 
 const BORDER = {

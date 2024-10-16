@@ -8,6 +8,7 @@ import Surveys from '../tabs/Surveys';
 import SettingsBtn from '../components/SettingsBtn';
 import app from '../styles/default';
 import COLORS from '../styles/constants/colors';
+import { FONT, FONTSIZE } from '../styles/constants/styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,8 +31,8 @@ const BottomTabs = ({ navigation }) => {
         tabBarActiveBackgroundColor: COLORS.lightBG,
         tabBarLabelPosition: 'below-icon',
         tabBarLabelStyle: {
-          fontWeight: '700',
-          // fontFamily: 'Lato-Bold',
+          // fontWeight: '700',
+          fontFamily: FONT.extraBold,
           fontSize: 12,
           color: COLORS.primary,
         },

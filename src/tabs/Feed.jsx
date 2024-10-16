@@ -16,8 +16,8 @@ import ModalView from '../components/ModalView';
 import formatDate from '../util/formatDate';
 import showToast from '../util/showToast';
 import app from '../styles/default';
-import COLORS from '../styles/constants/colors';
-import { BORDER, FONT, FONTSIZE } from '../styles/constants/styles';
+import card from '../styles/card';
+import { FONT } from '../styles/constants/styles';
 
 const Feed = ({ navigation }) => {
   const [surveys, setSurveys] = useState([]);
@@ -26,6 +26,7 @@ const Feed = ({ navigation }) => {
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const { user } = useAuth();
 
+  // Loads all the surveys in the current user's feed.
   useFocusEffect(
     React.useCallback(() => {
       const fetchSurveys = async () => {
@@ -84,10 +85,10 @@ const Feed = ({ navigation }) => {
           navigation.navigate('Respond', { itemId: item });
         }}
       >
-        <View style={app.card}>
+        <View style={card.container}>
           {/* Survey title */}
-          <View style={styles.cardTitle}>
-            <Text style={styles.cardHeader}>{item.title}</Text>
+          <View style={card.header}>
+            <Text style={card.title}>{item.title}</Text>
             <Pressable
               onPress={() => {
                 setSelectedSurvey(item);
@@ -105,14 +106,14 @@ const Feed = ({ navigation }) => {
           </View>
 
           {/* Survey description */}
-          <Text style={{ ...styles.descriptionText, fontFamily: FONT.regular }}>
+          <Text style={{ ...card.descriptionText, fontFamily: FONT.regular }}>
             {questions[0].question.length > 50
               ? `${questions[0].question.substring(0, 50)}...`
               : questions[0].question}
           </Text>
 
           {/* Author and date */}
-          <Text style={[styles.descriptionText, styles.cardFooter]}>
+          <Text style={[card.descriptionText, card.footer]}>
             @{item.createdBy} | {formatDate(item.createdAt)}
           </Text>
         </View>
@@ -155,29 +156,6 @@ const styles = StyleSheet.create({
   item: {
     marginVertical: 5,
     width: '100%',
-  },
-  cardHeader: {
-    ...app.header,
-    margin: 0,
-    marginBottom: 3,
-    fontFamily: FONT.bold,
-    fontWeight: 'normal',
-    lineHeight: 20, // can delete if preferred
-  },
-  cardTitle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  descriptionText: {
-    color: '#808080',
-    marginVertical: 3,
-    lineHeight: 20,
-  },
-  cardFooter: {
-    color: COLORS.primary,
-    fontFamily: FONT.bold,
-    fontSize: FONTSIZE.small,
   },
 });
 

@@ -12,6 +12,7 @@ import { useAuth } from '../contexts/AuthContext';
 import app from '../styles/default';
 import COLORS from '../styles/constants/colors';
 import { FONTSIZE } from '../styles/constants/styles';
+import card from '../styles/card';
 
 const Respond = ({ navigation, route }) => {
   const { itemId } = route.params;
@@ -27,19 +28,19 @@ const Respond = ({ navigation, route }) => {
 
   return itemId ? (
     <View style={app.container}>
-      <View style={app.card}>
+      <View style={card.container}>
         <Text style={[app.header, styles.title]}>{itemId.title} survey</Text>
         <Text style={{ textAlign: 'center' }}>
           created by <Text style={app.boldText}>@{itemId.createdBy}</Text>
         </Text>
       </View>
       <View style={styles.switchContainer}>
-        <Text>
+        <Text style={app.text}>
           Please choose how you would like your response to be submitted.
         </Text>
         <View style={styles.switch}>
           <Switch
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
+            trackColor={{ false: '#767577', true: COLORS.secondary }}
             thumbColor={isAnon ? COLORS.primary : COLORS.white}
             ios_backgroundColor='#3e3e3e'
             onValueChange={toggleSwitch}

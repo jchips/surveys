@@ -1,0 +1,53 @@
+[
+  {
+    "version": "0.1.2",
+    "changes": [
+      "Added About page",
+      "Dark theme added for graphs",
+      "Changed font"
+    ]
+  },
+  {
+    "version": "0.1.1",
+    "changes": [
+      "Users with account type of 'creator' can now delete surveys that they created. This will delete the survey for everyone"
+    ]
+  },
+  {
+    "version": "0.1.0",
+    "changes": [
+      "Creators can view the results of their multi-choice questions as a pie graph"
+    ]
+  },
+  {
+    "version": "0.0.5",
+    "changes": [
+      "Users can permanently remove surveys from their feed"
+    ]
+  },
+  {
+    "version": "0.0.4",
+    "changes": [
+      "Users with account type of 'creator' can view responses to their created surveys"
+    ]
+  },
+  {
+    "version": "0.0.3",
+    "changes": [
+      "Users can respond to surveys"
+    ]
+  },
+  {
+    "version": "0.0.2",
+    "changes": [
+      "Added Profile, Settings, and Surveys pages",
+      "User can create surveys if they have an account type of creator (or admin)"
+    ]
+  },
+  {
+    "version": "0.0.1",
+    "changes": [
+      "Initial"
+    ]
+  }
+]

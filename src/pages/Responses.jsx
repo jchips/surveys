@@ -4,14 +4,17 @@ import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
+import Loading from '../components/Loading';
 import formatDate from '../util/formatDate';
 import app from '../styles/default';
+import card from '../styles/card';
 import COLORS from '../styles/constants/colors';
 import { BORDER, FONTSIZE } from '../styles/constants/styles';
 
 const ViewResponse = ({ navigation, route }) => {
   const { survey } = route.params;
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   const [responses, setResponses] = useState([]);
   const { user } = useAuth();
 
@@ -36,6 +39,7 @@ const ViewResponse = ({ navigation, route }) => {
           console.error('error:', error.message);
           setError('Failed to fetch responses');
         }
+        setIsLoading(false);
       };
       fetchResponses();
     }, [])
@@ -66,7 +70,7 @@ const ViewResponse = ({ navigation, route }) => {
   // Response card
   const renderItem = ({ item }) => {
     return (
-      <View style={[app.card, styles.card]}>
+      <View style={[card.container, styles.card]}>
         <View style={styles.cardHeader}>
           <Text style={[app.header, styles.header]}>
             {item.response.username !== 'anon' ? '@' : null}
@@ -95,7 +99,7 @@ const ViewResponse = ({ navigation, route }) => {
             : null}
         </View>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ ...app.boldText, fontSize: FONTSIZE.small }}>
+          <Text style={{ ...app.boldText, fontSize: FONTSIZE.xsmall }}>
             Responded: {formatDate(item.createdAt)}
           </Text>
         </View>
@@ -103,7 +107,7 @@ const ViewResponse = ({ navigation, route }) => {
     );
   };
 
-  return (
+  return !isLoading ? (
     <View style={app.container}>
       {error ? (
         <View style={app.errorAlert}>
@@ -133,6 +137,8 @@ const ViewResponse = ({ navigation, route }) => {
         </Pressable>
       ) : null}
     </View>
+  ) : (
+    <Loading />
   );
 };
 
@@ -154,10 +160,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   boldText: {
-    color: '#000000',
+    color: '#000',
   },
   card: {
-    marginVertical: 5,
+    marginBottom: 10,
   },
   cardBody: {
     borderStyle: 'solid',

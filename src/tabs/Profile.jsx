@@ -2,15 +2,16 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import formatDate from '../util/formatDate';
-import { FONTSIZE } from '../styles/constants/styles';
 import app from '../styles/default';
+import card from '../styles/card';
+import { FONTSIZE } from '../styles/constants/styles';
 
 const Profile = () => {
   const { user, logout } = useAuth();
 
   return (
     <View style={app.container}>
-      <View style={{ ...app.card, fontSize: FONTSIZE.regular }}>
+      <View style={{ ...card.container, fontSize: FONTSIZE.regular }}>
         <View style={{ alignItems: 'center' }}>
           <Image
             source={require('../../assets/default-pfp.png')}
