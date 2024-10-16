@@ -1,5 +1,5 @@
-import { StyleSheet, Platform } from 'react-native';
-import { BORDER, FONTSIZE } from './constants/styles';
+import { StyleSheet } from 'react-native';
+import { BORDER, FONT, FONTSIZE } from './constants/styles';
 import COLORS from './constants/colors';
 
 const app = StyleSheet.create({
@@ -13,44 +13,27 @@ const app = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 20
   },
-  card: {
-    width: '100%',
-    backgroundColor: COLORS.white,
-    borderRadius: BORDER.radius,
-    padding: 15,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 1,
-      },
-      android: {
-        elevation: 1,
-      },
-    }),
-  },
   text: {
     fontSize: FONTSIZE.regular,
     marginVertical: 3,
-    fontFamily: 'Lato-Regular',
+    fontFamily: FONT.regular,
     lineHeight: 20
   },
   smallText: {
-    fontSize: FONTSIZE.small,
+    fontSize: FONTSIZE.xsmall,
     marginVertical: 1,
-    fontFamily: 'Lato-Regular',
+    fontFamily: FONT.regular,
     lineHeight: 20
   },
   boldText: {
     color: COLORS.primary,
-    fontWeight: '500',
-    fontFamily: 'Lato-Bold'
+    // fontWeight: '500',
+    fontFamily: FONT.bold,
   },
   header: {
     fontSize: FONTSIZE.large,
     margin: 10,
-    fontFamily: 'Lato-Bold',
+    fontFamily: FONT.bold
   },
   icon: {
     height: 25,
@@ -67,7 +50,7 @@ const app = StyleSheet.create({
   buttonText: {
     color: COLORS.white,
     fontSize: FONTSIZE.regular,
-    fontFamily: 'Lato-Regular',
+    fontFamily: FONT.regular,
     lineHeight: 20,
   },
   errorAlert: {
@@ -77,14 +60,14 @@ const app = StyleSheet.create({
     margin: 10,
   },
   singleLineInput: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     borderColor: 'none',
     height: 48,
     padding: 10,
     borderRadius: 8,
   },
   multilineInput: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     borderColor: 'none',
     padding: 10,
     borderRadius: 8,

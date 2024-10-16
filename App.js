@@ -8,8 +8,10 @@ export default function App() {
   Text.defaultProps.allowFontScaling = false; // Disable font scaling
   Text.defaultProps.textBreakStrategy = 'simple'; // Adjust text break strategy
   const [fontLoaded] = useFonts({
-    'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
-    'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
+    'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf'),
+    'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
+    'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
+    'Inter-ExtraBold': require('./assets/fonts/Inter-ExtraBold.ttf')
   });
   return fontLoaded ? (
     <AuthProvider>

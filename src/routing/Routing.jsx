@@ -12,6 +12,7 @@ import BottomTabs from './BottomTabs';
 import SurveyResponse from '../components/SurveyResponse';
 import Responses from '../pages/Responses';
 import Graph from '../pages/Graph';
+import About from '../pages/About';
 import COLORS from '../styles/constants/colors';
 import Error from '../pages/Error';
 
@@ -50,6 +51,14 @@ const Routing = () => {
               name='Graph'
               component={Graph}
               options={{ headerTitle: 'Graphs' }}
+            />
+            <Stack.Screen
+              name='About'
+              component={About}
+              options={{
+                headerTitle: 'About',
+                headerTintColor: COLORS.primary,
+              }}
             />
             <Stack.Screen name='SurveyResponse' component={SurveyResponse} />
             <Stack.Screen name='Responses' component={Responses} />
