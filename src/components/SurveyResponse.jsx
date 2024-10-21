@@ -9,13 +9,13 @@ import {
   Platform,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import TextResponse from './TextResponse';
 import MultiChoiceResponse from './MultiChoiceResponse';
 import showToast from '../util/showToast';
+import api from '../util/apiService';
 import app from '../styles/default';
+import COLORS from '../styles/constants/colors';
 
 const SurveyResponse = ({ navigation, route }) => {
   const {
@@ -44,6 +44,14 @@ const SurveyResponse = ({ navigation, route }) => {
       // [responseIndex]: formData?.[responseIndex] || '',
     },
   });
+
+  // Set up bearer auth for user
+  useEffect(() => {
+    // if (user.token) {
+    //   api.setAuthorizationHeader(user.token);
+    // }
+    api.setTokenGetter(() => user?.token);
+  }, [user]);
 
   // Clears the inputs when navigating to next survey response page.
   useEffect(() => {
@@ -88,12 +96,11 @@ const SurveyResponse = ({ navigation, route }) => {
         response: finalFormData,
       };
       // console.log('responseBody:', responseBody); // delete later
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-      axios.defaults.headers.common['Content-Type'] = 'application/json';
-      let requestURL1 = `${API_URL}/responses`;
-      await axios.post(requestURL1, responseBody);
-      let requestURL2 = `${API_URL}/surveys/${surveyId}`;
-      await axios.patch(requestURL2, { responder: user.id });
+      await api.postResponse(responseBody);
+      await api.postResponder({
+        user_id: user.id,
+        survey_id: surveyId,
+      });
       Keyboard.dismiss();
       navigation.navigate('Feed');
       Platform.OS === 'android' ? showToast('Response submitted') : null;

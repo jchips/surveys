@@ -40,6 +40,7 @@ const SignupForm = ({ showToast }) => {
     try {
       setIsLoading(true);
       if (formData.password !== formData.confirmPassword) {
+        setIsLoading(false);
         return setError('Passwords do not match');
       }
 

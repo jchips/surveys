@@ -5,7 +5,7 @@ import COLORS from '../styles/constants/colors';
 import { BORDER } from '../styles/constants/styles';
 
 const ModalView = (props) => {
-  const { actionText, submitAction, viewModal, setViewModal, selectedSurvey } =
+  const { actionText, submitAction, viewModal, setViewModal, selection } =
     props;
   return (
     <Modal
@@ -20,8 +20,11 @@ const ModalView = (props) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={app.text}>
-            {actionText}{' '}
-            <Text style={app.boldText}>{selectedSurvey.title}</Text> survey?
+            {actionText}:{' '}
+            <Text style={app.boldText}>
+              {selection.title ? selection.title : `@${selection}`}
+            </Text>
+            ?
           </Text>
           <Text style={app.smallText}>(This cannot be undone)</Text>
           <View style={styles.buttons}>
@@ -34,7 +37,7 @@ const ModalView = (props) => {
             <Pressable
               style={[app.button, styles.button]}
               onPress={() => {
-                submitAction(selectedSurvey);
+                submitAction(selection);
                 setViewModal(!viewModal);
               }}
             >
@@ -49,15 +52,16 @@ const ModalView = (props) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: '45%',
+    width: '47%',
   },
   backButton: {
     backgroundColor: COLORS.lightBG,
   },
   buttons: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
-    margin: 10,
+    margin: 5,
   },
   centeredView: {
     flex: 1,

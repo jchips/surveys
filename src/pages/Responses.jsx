@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList, Pressable } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import axios from 'axios';
-import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import Loading from '../components/Loading';
 import formatDate from '../util/formatDate';
+import api from '../util/apiService';
 import app from '../styles/default';
 import card from '../styles/card';
 import COLORS from '../styles/constants/colors';
-import { BORDER, FONTSIZE } from '../styles/constants/styles';
+import { BORDER, FONT, FONTSIZE } from '../styles/constants/styles';
 
 const ViewResponse = ({ navigation, route }) => {
   const { survey } = route.params;
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [questions, setQuestions] = useState([]);
   const [responses, setResponses] = useState([]);
   const { user } = useAuth();
+
+  // Set up bearer auth for user
+  useEffect(() => {
+    api.setTokenGetter(() => user?.token);
+  }, [user]);
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: survey.title });
@@ -28,13 +33,10 @@ const ViewResponse = ({ navigation, route }) => {
       const fetchResponses = async () => {
         try {
           setError('');
-          axios.defaults.headers.common[
-            'Authorization'
-          ] = `Bearer ${user.token}`;
-          axios.defaults.headers.common['Content-Type'] = 'application/json';
-          const requestUrl = `${API_URL}/responses/${survey.id}`;
-          let response = await axios.get(requestUrl);
-          setResponses(response.data);
+          let qResponse = await api.getQuestions(survey.id);
+          let resResponse = await api.getResponses(survey.id);
+          setQuestions(qResponse.data);
+          setResponses(resResponse.data);
         } catch (error) {
           console.error('error:', error.message);
           setError('Failed to fetch responses');
@@ -60,7 +62,7 @@ const ViewResponse = ({ navigation, route }) => {
           <Text style={app.text}>
             {textResponse
               ? textResponse
-              : question.multiChoiceOptions.split(',')[radioResponse]}
+              : question.multiChoiceOptions.split(', ')[radioResponse]}
           </Text>
         )}
       </>
@@ -69,32 +71,39 @@ const ViewResponse = ({ navigation, route }) => {
 
   // Response card
   const renderItem = ({ item }) => {
+    const response = item.response;
     return (
       <View style={[card.container, styles.card]}>
         <View style={styles.cardHeader}>
-          <Text style={[app.header, styles.header]}>
-            {item.response.username !== 'anon' ? '@' : null}
-            {item.response.username}
-          </Text>
+          {response.username !== '[deleted]' ? (
+            <Text style={[app.header, styles.header]}>
+              {response.username !== 'anon' ? '@' : null}
+              {response.username}
+            </Text>
+          ) : (
+            <Text style={[styles.header, styles.deletedAcc]}>
+              {response.username}
+            </Text>
+          )}
         </View>
         <View style={styles.cardBody}>
           {qAndResponse(
-            survey.questions[0],
-            item.response.textResponse1,
-            item.response.radioGroup1
+            questions[0],
+            response.textResponse1,
+            response.radioGroup1
           )}
-          {survey.questions[1]
+          {questions[1]
             ? qAndResponse(
-                survey.questions[1],
-                item.response.textResponse2,
-                item.response.radioGroup2
+                questions[1],
+                response.textResponse2,
+                response.radioGroup2
               )
             : null}
-          {survey.questions[2]
+          {questions[2]
             ? qAndResponse(
-                survey.questions[2],
-                item.response.textResponse3,
-                item.response.radioGroup3
+                questions[2],
+                response.textResponse3,
+                response.radioGroup3
               )
             : null}
         </View>
@@ -115,7 +124,7 @@ const ViewResponse = ({ navigation, route }) => {
         </View>
       ) : null}
       <View style={styles.headerContainer}>
-        <Text style={app.header}>{survey.title} responses</Text>
+        <Text style={app.header}>{survey.title} - responses</Text>
         <Text style={app.boldText}>
           {responses.length === 1
             ? responses.length + ' response'
@@ -146,7 +155,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
     marginTop: 0,
     marginBottom: 20,
   },
@@ -171,6 +180,11 @@ const styles = StyleSheet.create({
     borderColor: '#eee',
     borderRadius: BORDER.radius,
     padding: 10,
+  },
+  deletedAcc: {
+    fontFamily: FONT.boldItalic,
+    fontSize: FONTSIZE.regular,
+    color: COLORS.lightText,
   },
 });
 

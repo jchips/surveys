@@ -3,8 +3,8 @@ const COLORS = {
   secondary: '#81b0ff',
   white: '#ffffff',
   lightBG: '#fff1f2',
-  darkPrimary: '#ac000d',
-  verylight: '#fff9fa'
+  verylight: '#fff9fa',
+  lightText: '#808080',
   // offWhite: '#F3F4F8',
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,12 +9,11 @@ import {
   Platform,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import axios from 'axios';
-import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import ModalView from '../components/ModalView';
 import formatDate from '../util/formatDate';
 import showToast from '../util/showToast';
+import api from '../util/apiService';
 import app from '../styles/default';
 import card from '../styles/card';
 import { FONT } from '../styles/constants/styles';
@@ -26,19 +25,21 @@ const Feed = ({ navigation }) => {
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const { user } = useAuth();
 
+  // Set up bearer auth for user
+  useEffect(() => {
+    api.setTokenGetter(() => user?.token);
+  }, [user]);
+
   // Loads all the surveys in the current user's feed.
   useFocusEffect(
     React.useCallback(() => {
       const fetchSurveys = async () => {
         try {
           setError('');
-          axios.defaults.headers.common[
-            'Authorization'
-          ] = `Bearer ${user.token}`;
-          axios.defaults.headers.common['Content-Type'] = 'application/json';
-          const requestUrl = `${API_URL}/surveys/${user.username}/${user.id}`;
-          let response = await axios.get(requestUrl);
-          setSurveys(response.data.reverse());
+          let response = await api.getFeed(
+            `/surveys/${user.username}/${user.id}`
+          );
+          setSurveys(response.data);
         } catch (error) {
           console.error('error:', error.message);
           setError('Failed to fetch surveys');
@@ -55,11 +56,8 @@ const Feed = ({ navigation }) => {
   const removeSurvey = async (survey) => {
     try {
       setError('');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-      axios.defaults.headers.common['Content-Type'] = 'application/json';
-      const requestUrl = `${API_URL}/remove`;
       let reqBody = { user_id: user.id, survey_id: survey.id };
-      await axios.post(requestUrl, reqBody);
+      await api.postRemove(reqBody);
       let surveysCopy = [...surveys];
       surveysCopy.splice(
         surveysCopy.findIndex((surveyCard) => surveyCard.id === survey.id),
@@ -77,7 +75,7 @@ const Feed = ({ navigation }) => {
 
   // Survey card
   const renderItem = ({ item }) => {
-    const questions = item.questions;
+    const questions = item.qs; // change to questions later
     return (
       <Pressable
         style={styles.item}
@@ -141,9 +139,9 @@ const Feed = ({ navigation }) => {
 
       {selectedSurvey ? (
         <ModalView
-          actionText='Remove'
+          actionText='Remove survey'
           submitAction={removeSurvey}
-          selectedSurvey={selectedSurvey}
+          selection={selectedSurvey}
           viewModal={viewModal}
           setViewModal={setViewModal}
         />
