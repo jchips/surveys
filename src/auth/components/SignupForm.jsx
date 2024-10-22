@@ -108,7 +108,8 @@ const SignupForm = ({ showToast }) => {
       let requestUrl = `${API_URL}/signin`;
       let response = await axios.post(requestUrl);
       setUser(response.data.user);
-      setToken(response.data.token);
+      let token = response.data.token;
+      setToken(token);
       setIsSignedIn(true);
     } catch (error) {
       setIsSignedIn(false);

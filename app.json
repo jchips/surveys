@@ -12,13 +12,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon-rounded.png",
         "backgroundColor": "#ffffff"
       },
+      "userInterfaceStyle": "automatic",
       "package": "com.javacow.surveys"
     },
     "web": {
@@ -36,8 +38,17 @@
             "./assets/fonts/Inter-BoldItalic.ttf"
           ]
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true
+          }
+        }
       ]
     ],
+    "scheme": "surveys-app",
     "extra": {
       "eas": {
         "projectId": "bc2f96c0-53a9-4043-96c3-4e5ac6542668"
