@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, SafeAreaView, Text, Pressable } from 'react-native';
 import LoginForm from './components/LoginForm';
 import showToast from '../util/showToast';
-import { FONTSIZE } from '../styles/constants/styles';
 
 const Login = ({ navigation }) => {
   return (
@@ -17,9 +16,7 @@ const Login = ({ navigation }) => {
           })
         }
       >
-        <Text style={{ fontSize: FONTSIZE.regular }}>
-          Don't have an account? Sign up
-        </Text>
+        <Text>Don't have an account? Sign up</Text>
       </Pressable>
     </SafeAreaView>
   );
