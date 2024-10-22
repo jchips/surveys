@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 7.1.2"
+    "version": ">= 7.1.2",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -13,7 +14,12 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "appVersionSource": "remote",
+      "env": {
+        "DATABASE_URL": "https://surveys-api-gznu.onrender.com"
+      }
+    }
   },
   "submit": {
     "production": {}
