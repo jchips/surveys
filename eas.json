@@ -12,10 +12,13 @@
       }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "DATABASE_URL": "https://surveys-api-gznu.onrender.com"
+      }
     },
     "production": {
-      "appVersionSource": "remote",
+      "autoIncrement": true,
       "env": {
         "DATABASE_URL": "https://surveys-api-gznu.onrender.com"
       }

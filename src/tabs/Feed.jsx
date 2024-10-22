@@ -23,12 +23,12 @@ const Feed = ({ navigation }) => {
   const [error, setError] = useState('');
   const [viewModal, setViewModal] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
   // Set up bearer auth for user
   useEffect(() => {
-    api.setTokenGetter(() => user?.token);
-  }, [user]);
+    api.setTokenGetter(() => token);
+  }, [token]);
 
   // Loads all the surveys in the current user's feed.
   useFocusEffect(
@@ -75,7 +75,7 @@ const Feed = ({ navigation }) => {
 
   // Survey card
   const renderItem = ({ item }) => {
-    const questions = item.qs; // change to questions later
+    const questions = item.qs;
     return (
       <Pressable
         style={styles.item}

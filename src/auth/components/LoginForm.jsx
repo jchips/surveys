@@ -14,7 +14,6 @@ import axios from 'axios';
 import { API_URL } from '@env';
 import { useAuth } from '../../contexts/AuthContext';
 import app from '../../styles/default';
-import COLORS from '../../styles/constants/colors';
 
 const LoginForm = ({ showToast }) => {
   const [error, setError] = useState('');
@@ -140,13 +139,6 @@ const styles = StyleSheet.create({
     padding: 8,
     width: '100%',
   },
-  alertColor: {
-    // can delete
-    backgroundColor: 'rgb(248, 215, 218)',
-    padding: 16,
-    borderRadius: 8,
-    margin: 10,
-  },
   input: {
     backgroundColor: 'white',
     borderColor: 'none',
@@ -155,15 +147,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   controllerContainer: {
-    margin: 10,
-  },
-  button: {
-    // can delete
-    alignItems: 'center',
-    backgroundColor: COLORS.primary,
-    borderRadius: 8,
-    height: 48,
-    justifyContent: 'center',
     margin: 10,
   },
   errorText: {
