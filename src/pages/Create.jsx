@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Pressable,
   ScrollView,
@@ -11,15 +11,15 @@ import {
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import axios from 'axios';
-import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import SurveyQuestion from '../components/SurveyQuestion';
 import showToast from '../util/showToast';
+import api from '../util/apiService';
 import app from '../styles/default';
 import { BORDER } from '../styles/constants/styles';
 import COLORS from '../styles/constants/colors';
 
+// Create a survey
 const Create = ({ navigation }) => {
   const [error, setError] = useState('');
   const [addSecondQuestion, setAddSecondQuestion] = useState(false);
@@ -37,6 +37,16 @@ const Create = ({ navigation }) => {
     },
   });
 
+  // Set up bearer auth for user
+  useEffect(() => {
+    api.setTokenGetter(() => user?.token);
+  }, [user]);
+
+  /**
+   * Adds the created survey to the database (posts the survey).
+   * Then navigates the user back to the Surveys tab.
+   * @param {Object} formData - All the questions, response types, and multi-choice options.
+   */
   const onSubmit = async (formData) => {
     try {
       setIsLoading(true);
@@ -46,18 +56,25 @@ const Create = ({ navigation }) => {
         {
           question: formData.surveyQuestion1,
           responseType: formData.responseType1,
+          qIndex: 0,
         },
       ];
+
+      // if theres a 2nd question, add it to questions arr
       if (formData.surveyQuestion2) {
         questions.push({
           question: formData.surveyQuestion2,
           responseType: formData.responseType2,
+          qIndex: 1,
         });
       }
+
+      // if theres a 3rd question, add it to questions arr
       if (formData.surveyQuestion3) {
         questions.push({
           question: formData.surveyQuestion3,
           responseType: formData.responseType3,
+          qIndex: 2,
         });
       }
       if (formData.multiChoiceOptions1) {
@@ -73,14 +90,11 @@ const Create = ({ navigation }) => {
       const surveyBody = {
         createdBy: user.username,
         title: formData.surveyTitle,
-        questions: questions,
+        // questions: questions,
         responders: [],
       };
-      // console.log('formData:', surveyBody); // delete later
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-      axios.defaults.headers.common['Content-Type'] = 'application/json';
-      let requestUrl = `${API_URL}/surveys`;
-      await axios.post(requestUrl, surveyBody);
+
+      await api.postSurvey({ surveyBody, questions: questions });
       navigation.navigate('Surveys');
       Platform.OS === 'android' ? showToast('Survey posted') : null;
       reset({

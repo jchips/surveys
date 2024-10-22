@@ -36,11 +36,33 @@ const SignupForm = ({ showToast }) => {
     },
   });
 
+  /**
+   * Restrictions on usernames
+   * @param {String} username - The username the user entered
+   * @returns {Boolean} - Whether or not the username was valid
+   */
+  const validateUsername = (username) => {
+    const validate = /^[a-z][a-z\.\d]+$/gm;
+    return (
+      validate.test(username) ||
+      'Please choose a username that contains only lowercase letters, numbers, and periods. The first character must be a letter and there must be 2-15 characters.'
+    );
+  };
+
+  // Submits the user's sign up information
   const onSubmit = async (formData) => {
     try {
       setIsLoading(true);
       if (formData.password !== formData.confirmPassword) {
+        setIsLoading(false);
         return setError('Passwords do not match');
+      }
+
+      if (!validateUsername(formData.username)) {
+        setIsLoading(false);
+        return setError(
+          'Please choose a username that contains only lowercase letters, numbers, and periods. The first character must be a letter.'
+        );
       }
 
       const newUserBody = {
@@ -48,7 +70,6 @@ const SignupForm = ({ showToast }) => {
         password: formData.password,
         role: formData.acl,
       };
-      // console.log('formData:', newUserBody); // delete later
 
       let requestUrl = `${API_URL}/signup`;
       let response = await axios.post(requestUrl, newUserBody);
@@ -74,6 +95,10 @@ const SignupForm = ({ showToast }) => {
     setIsLoading(false);
   };
 
+  /**
+   * Logs a user in after they have created an account.
+   * @param {Object} formData - The username and password the user entered
+   */
   const logUserIn = async (formData) => {
     try {
       setError('');
@@ -105,6 +130,7 @@ const SignupForm = ({ showToast }) => {
           control={control}
           rules={{
             required: true,
+            validate: validateUsername,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -120,7 +146,9 @@ const SignupForm = ({ showToast }) => {
           )}
         />
         {errors.username && (
-          <Text style={styles.errorText}>username required</Text>
+          <Text style={styles.errorText}>
+            {errors.username.message || 'username required'}
+          </Text>
         )}
       </View>
 

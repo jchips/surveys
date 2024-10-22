@@ -15,7 +15,6 @@ import { API_URL } from '@env';
 import { useAuth } from '../../contexts/AuthContext';
 import app from '../../styles/default';
 import COLORS from '../../styles/constants/colors';
-import { FONTSIZE } from '../../styles/constants/styles';
 
 const LoginForm = ({ showToast }) => {
   const [error, setError] = useState('');

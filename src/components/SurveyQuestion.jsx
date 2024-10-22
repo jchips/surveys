@@ -6,6 +6,11 @@ import app from '../styles/default';
 import COLORS from '../styles/constants/colors';
 import { BORDER } from '../styles/constants/styles';
 
+/**
+ * A form for creating a single survey question.
+ * @param {Object} props - props from Create.jsx
+ * @returns - a <SurveyQuestion/> element.
+ */
 const SurveyQuestion = (props) => {
   const { control, errors, questionIndex } = props;
   const [isMultichoice, setIsMultichoice] = useState(false);

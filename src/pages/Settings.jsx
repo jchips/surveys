@@ -1,24 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { useAuth } from '../contexts/AuthContext';
+import ModalView from '../components/ModalView';
+import api from '../util/apiService';
 import app from '../styles/default';
 import card from '../styles/card';
-import COLORS from '../styles/constants/colors';
 
 const Settings = ({ navigation }) => {
+  const [error, setError] = useState('');
+  const [viewModal, setViewModal] = useState(false);
+  const { user, logout } = useAuth();
+
+  // Set up bearer auth for user
+  useEffect(() => {
+    api.setTokenGetter(() => user?.token);
+  }, [user]);
+
+  const deleteAccount = async () => {
+    try {
+      setError('');
+      let res = await api.deleteUser(user.id);
+      logout();
+      console.log('res:', res); // delete later
+    } catch (error) {
+      setError('Failed to delete account. Please try again later.');
+    }
+  };
+
   return (
     <View style={app.container}>
       <Pressable onPress={() => navigation.navigate('About')}>
-        <View style={card.container}>
+        <View style={[card.container, styles.card]}>
           <Text style={[card.title]}>About Surveys</Text>
         </View>
       </Pressable>
+      {error ? (
+        <View style={app.errorAlert}>
+          <Text>{error}</Text>
+        </View>
+      ) : null}
+      <Pressable style={app.button} onPress={() => setViewModal(true)}>
+        <Text style={app.buttonText}>Delete account</Text>
+      </Pressable>
+      <ModalView
+        actionText='Delete account'
+        submitAction={deleteAccount}
+        selection={user.username}
+        viewModal={viewModal}
+        setViewModal={setViewModal}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  text: {
-    color: COLORS.primary,
+  card: {
+    marginTop: 5,
   },
 });
 

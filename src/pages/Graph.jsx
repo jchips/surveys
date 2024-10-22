@@ -24,7 +24,7 @@ const Graph = ({ route }) => {
    * while storing their original indices.
    */
   useEffect(() => {
-    let arrWithIndices = survey.questions.map((q, index) => ({ ...q, index }));
+    let arrWithIndices = survey.qs.map((q, index) => ({ ...q, index })); // change qs to questions
     let multiChoiceQsArr = arrWithIndices.filter(
       (q) => q.responseType === 'multiChoice'
     );
@@ -77,7 +77,7 @@ const Graph = ({ route }) => {
    * @returns - The legend item as a <View> element.
    */
   const renderLegendItem = (text, color) => {
-    let width = text.length > 17 ? '100%' : '50%';
+    let width = text.length > 16 ? '100%' : '50%';
     return (
       <View style={{ ...styles.legendItem, width }} key={text}>
         <View
@@ -178,24 +178,26 @@ const Graph = ({ route }) => {
       <Text style={styles.subHeaderText}>
         {responses.length} response(s) total
       </Text>
-      <View style={styles.switch}>
-        <Switch
-          trackColor={{ false: '#767577', true: COLORS.secondary }}
-          thumbColor={COLORS.white}
-          ios_backgroundColor='#3e3e3e'
-          onValueChange={toggleSwitch}
-          value={darkGraph}
-          style={{ marginRight: Platform.OS === 'ios' ? 10 : null }}
-        />
-        <Text style={app.text}>dark theme</Text>
-      </View>
       {multiChoiceQs.length > 0 ? (
-        <FlatList
-          data={multiChoiceQs}
-          renderItem={renderItem}
-          numColumns={1}
-          keyExtractor={(item) => item.question}
-        />
+        <>
+          <View style={styles.switch}>
+            <Switch
+              trackColor={{ false: '#767577', true: COLORS.secondary }}
+              thumbColor={COLORS.white}
+              ios_backgroundColor='#3e3e3e'
+              onValueChange={toggleSwitch}
+              value={darkGraph}
+              style={{ marginRight: Platform.OS === 'ios' ? 10 : null }}
+            />
+            <Text style={app.text}>dark theme</Text>
+          </View>
+          <FlatList
+            data={multiChoiceQs}
+            renderItem={renderItem}
+            numColumns={1}
+            keyExtractor={(item) => item.question}
+          />
+        </>
       ) : (
         <Text
           style={{

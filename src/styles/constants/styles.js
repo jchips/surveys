@@ -3,6 +3,7 @@ const FONT = {
   bold: 'Inter-Bold',
   semiBold: 'Inter-SemiBold',
   regular: 'Inter-Regular',
+  boldItalic: 'Inter-BoldItalic',
 }
 
 const FONTSIZE = {

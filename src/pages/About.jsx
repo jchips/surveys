@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, FlatList, Linking } from 'react-native';
 import changelog from '../util/changelog.json';
 import app from '../styles/default';
 import card from '../styles/card';
-import { FONT, FONTSIZE } from '../styles/constants/styles';
+import { BORDER, FONT, FONTSIZE } from '../styles/constants/styles';
 import COLORS from '../styles/constants/colors';
 
 const About = () => {
@@ -12,7 +12,7 @@ const About = () => {
       <View style={{ flex: 1 }}>
         <View style={[card.container, styles.cardContainer]}>
           <Text style={styles.title}>Surveys</Text>
-          <Text style={styles.subTitle}>Version 0.1.2</Text>
+          <Text style={styles.subTitle}>Version 1.0.0</Text>
         </View>
         <View style={styles.changelog}>
           <Text style={[card.title, styles.cardTitle]}>Changelog</Text>
@@ -30,6 +30,7 @@ const About = () => {
             )}
             numColumns={1}
             keyExtractor={(item) => item.version}
+            style={styles.changelogContainer}
           />
         </View>
       </View>
@@ -54,8 +55,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     paddingTop: 15,
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 10,
   },
   title: {
     color: COLORS.primary,
@@ -78,12 +79,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 20,
   },
+  changelogContainer: {
+    // backgroundColor: '#f7f7f7',
+    // marginTop: 10,
+    paddingHorizontal: 10,
+    borderRadius: BORDER.radius,
+  },
   changelogItem: {
     marginVertical: 5,
   },
   version: {
     color: COLORS.primary,
-    fontFamily: FONT.semiBold,
+    fontFamily: FONT.bold,
   },
   bullet: {
     marginLeft: 5,
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
   },
   creditsText: {
     fontSize: FONTSIZE.small,
-    fontFamily: FONT.semiBold,
+    fontFamily: FONT.bold,
   },
   link: {
     color: COLORS.secondary,

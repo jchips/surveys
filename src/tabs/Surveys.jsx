@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -8,12 +8,11 @@ import {
   Image,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import axios from 'axios';
-import { API_URL } from '@env';
 import { useAuth } from '../contexts/AuthContext';
 import ModalView from '../components/ModalView';
 import Loading from '../components/Loading';
 import formatDate from '../util/formatDate';
+import api from '../util/apiService';
 import app from '../styles/default';
 import card from '../styles/card';
 import { FONT } from '../styles/constants/styles';
@@ -26,18 +25,20 @@ const Surveys = ({ navigation }) => {
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const { user } = useAuth();
 
+  // Set up bearer auth for user
+  useEffect(() => {
+    api.setTokenGetter(() => user?.token);
+  }, [user]);
+
   // Loads all the current user's created surveys.
   useFocusEffect(
     React.useCallback(() => {
       const fetchCreatedSurveys = async () => {
         try {
           setError('');
-          axios.defaults.headers.common[
-            'Authorization'
-          ] = `Bearer ${user.token}`;
-          axios.defaults.headers.common['Content-Type'] = 'application/json';
-          const requestUrl = `${API_URL}/surveys?createdBy=${user.username}`;
-          let response = await axios.get(requestUrl);
+          let response = await api.getSurveys(
+            `/surveys?createdBy=${user.username}`
+          );
           setCreatedSurveys(response.data);
         } catch (error) {
           console.error(error.message);
@@ -56,14 +57,7 @@ const Surveys = ({ navigation }) => {
   const deleteSurvey = async (survey) => {
     try {
       setError('');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
-      axios.defaults.headers.common['Content-Type'] = 'application/json';
-      const removeReqUrl = `${API_URL}/remove/${survey.id}`;
-      const responsesReqUrl = `${API_URL}/responses/${survey.id}`;
-      const surveysReqUrl = `${API_URL}/surveys/${survey.id}`;
-      await axios.delete(removeReqUrl);
-      await axios.delete(responsesReqUrl);
-      await axios.delete(surveysReqUrl);
+      await api.deleteSurvey(survey.id);
       let createdSurveysCopy = [...createdSurveys];
       createdSurveysCopy.splice(
         createdSurveysCopy.findIndex(
@@ -80,7 +74,7 @@ const Surveys = ({ navigation }) => {
 
   // Created survey
   const renderItem = ({ item }) => {
-    const questions = item.questions;
+    const questions = item.qs; // change to questions later
     return (
       <Pressable
         style={styles.item}
@@ -121,7 +115,7 @@ const Surveys = ({ navigation }) => {
     );
   };
 
-  return !isLoading ? (
+  return (
     <View style={app.container}>
       {error ? (
         <View style={app.errorAlert}>
@@ -135,28 +129,30 @@ const Surveys = ({ navigation }) => {
         <Text style={app.buttonText}>Create new</Text>
       </Pressable>
       <Text style={styles.header}>Created Surveys</Text>
-      {createdSurveys.length > 0 ? (
-        <FlatList
-          data={createdSurveys}
-          renderItem={renderItem}
-          numColumns={1}
-          keyExtractor={(item) => item.id}
-        />
+      {!isLoading ? (
+        createdSurveys.length > 0 ? (
+          <FlatList
+            data={createdSurveys}
+            renderItem={renderItem}
+            numColumns={1}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Text style={styles.text}>No created surveys yet.</Text>
+        )
       ) : (
-        <Text style={styles.text}>No created surveys yet.</Text>
+        <Loading />
       )}
       {selectedSurvey ? (
         <ModalView
-          actionText='Delete'
+          actionText='Delete survey'
           submitAction={deleteSurvey}
-          selectedSurvey={selectedSurvey}
+          selection={selectedSurvey}
           viewModal={viewModal}
           setViewModal={setViewModal}
         />
       ) : null}
     </View>
-  ) : (
-    <Loading />
   );
 };
 

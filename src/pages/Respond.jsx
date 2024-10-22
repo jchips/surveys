@@ -14,9 +14,10 @@ import COLORS from '../styles/constants/colors';
 import { FONTSIZE } from '../styles/constants/styles';
 import card from '../styles/card';
 
+// Respond to survey. route.params from Feed.jsx
 const Respond = ({ navigation, route }) => {
   const { itemId } = route.params;
-  const questions = itemId.questions;
+  const questions = itemId.qs; // change to questions later
   const [isAnon, setIsAnon] = useState(false);
   const toggleSwitch = () => setIsAnon((previousState) => !previousState);
   const { user } = useAuth();

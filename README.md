@@ -4,7 +4,7 @@ A mobile app for IOS and Android where users can post and respond to survey ques
 
 ## Author: Jelani R
 
-## Version: 0.1.2
+## Version: 1.0.0
 
 <img src='./assets/icon.png' alt='Surveys app icon' width='200'/>
 
@@ -24,10 +24,11 @@ The backend for this project is [here](https://github.com/Jchips/surveys-api).
 - [React Native Gifted Charts](https://www.npmjs.com/package/react-native-gifted-charts)
 - [Random color generator code](https://commerce.nearform.com/open-source/victory-native/docs/polar/pie/pie-charts)
 - [icons8](https://icons8.com/)
-- ['Lato' Google font by Łukasz Dziedzic](https://fonts.google.com/specimen/Lato?query=lato)
+- ['Inter' Google font by Rasmus Andersson](https://fonts.google.com/specimen/Inter)
 
 ## Changelog
 
+- 1.0.0 (10-22-2024, 12:34am) - Refactored database. Users can permanently delete their accounts. Admins can delete users' accounts.
 - 0.1.2 (10-16-2024, 2:48am) - About page, dark theme graphs. changed font, added loading symbol.
 - 0.1.1 (10-12-2024, 2:40am) - Creators can now delete surveys that they created. This will delete the survey for everyone.
 - 0.1.0 (10-11-2024, 8:31pm) - Users can view the results of the multi-choice questions as a pie graph.

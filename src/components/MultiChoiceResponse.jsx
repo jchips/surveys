@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Controller } from 'react-hook-form';
 import RadioGroup from 'react-native-radio-buttons-group';
 import app from '../styles/default';
+import COLORS from '../styles/constants/colors';
 
 const MultiChoiceResponse = ({ control, choices, index, errors }) => {
   const radioButtons = useMemo(
@@ -12,6 +13,7 @@ const MultiChoiceResponse = ({ control, choices, index, errors }) => {
           id: index,
           label: option,
           value: option,
+          color: COLORS.primary,
         };
       }),
     [choices]
