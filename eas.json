@@ -8,19 +8,19 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "DATABASE_URL": "https://surveys-api-gznu.onrender.com"
+        "API_URL": "https://surveys-api-gznu.onrender.com"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
-        "DATABASE_URL": "https://surveys-api-gznu.onrender.com"
+        "API_URL": "https://surveys-api-gznu.onrender.com"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "DATABASE_URL": "https://surveys-api-gznu.onrender.com"
+        "API_URL": "https://surveys-api-gznu.onrender.com"
       }
     }
   },
