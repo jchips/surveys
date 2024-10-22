@@ -4,7 +4,7 @@ A mobile app for IOS and Android where users can post and respond to survey ques
 
 ## Author: Jelani R
 
-## Version: 0.1.3
+## Version: 1.0.0
 
 <img src='./assets/icon.png' alt='Surveys app icon' width='200'/>
 
@@ -28,7 +28,7 @@ The backend for this project is [here](https://github.com/Jchips/surveys-api).
 
 ## Changelog
 
-- 0.1.3 (10-21-2024, 5:46am) - Refactored database. Users can permanently delete their accounts. Admins can delete users' accounts.
+- 1.0.0 (10-22-2024, 12:34am) - Refactored database. Users can permanently delete their accounts. Admins can delete users' accounts.
 - 0.1.2 (10-16-2024, 2:48am) - About page, dark theme graphs. changed font, added loading symbol.
 - 0.1.1 (10-12-2024, 2:40am) - Creators can now delete surveys that they created. This will delete the survey for everyone.
 - 0.1.0 (10-11-2024, 8:31pm) - Users can view the results of the multi-choice questions as a pie graph.

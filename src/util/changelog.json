@@ -1,5 +1,13 @@
 [
   {
+    "version": "1.0.0",
+    "changes": [
+      "Username validation",
+      "Users can permanetly delete their accounts",
+      "Admins can delete all/any users' accounts (except other admins)"
+    ]
+  },
+  {
     "version": "0.1.2",
     "changes": [
       "Added About page",
