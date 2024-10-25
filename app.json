@@ -4,7 +4,7 @@
     "slug": "surveys",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon-rounded.png",
+    "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
@@ -17,14 +17,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon-rounded.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/fg-icon.png",
+        "backgroundImage": "./assets/bg-icon.png"
       },
       "userInterfaceStyle": "automatic",
       "package": "com.javacow.surveys"
     },
     "web": {
-      "favicon": "./assets/icon-rounded.png"
+      "favicon": "./assets/icon.png"
     },
     "plugins": [
       [

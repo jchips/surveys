@@ -17,7 +17,7 @@ import card from '../styles/card';
 // Respond to survey. route.params from Feed.jsx
 const Respond = ({ navigation, route }) => {
   const { itemId } = route.params;
-  const questions = itemId.qs; // change to questions later
+  const questions = itemId.qs;
   const [isAnon, setIsAnon] = useState(false);
   const toggleSwitch = () => setIsAnon((previousState) => !previousState);
   const { user } = useAuth();

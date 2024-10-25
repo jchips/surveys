@@ -31,6 +31,10 @@ const LoginForm = ({ showToast }) => {
     },
   });
 
+  /**
+   * Submits the user's form responses to the serve
+   * @param {Object} formData - User's form data
+   */
   const onSubmit = async (formData) => {
     try {
       setIsLoading(true);
@@ -39,7 +43,6 @@ const LoginForm = ({ showToast }) => {
       axios.defaults.headers.common['Content-Type'] = 'application/json';
       let requestUrl = `${API_URL}/signin`;
       let response = await axios.post(requestUrl);
-      // console.log('response:', response.data.user); // delete later
       setUser(response.data.user);
       setToken(response.data.token);
       setError('');

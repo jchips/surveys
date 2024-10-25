@@ -16,12 +16,12 @@ const Settings = ({ navigation }) => {
     api.setTokenGetter(() => user?.token);
   }, [user]);
 
+  // Deletes a user's account
   const deleteAccount = async () => {
     try {
       setError('');
-      let res = await api.deleteUser(user.id);
+      await api.deleteUser(user.username, user.id);
       logout();
-      console.log('res:', res); // delete later
     } catch (error) {
       setError('Failed to delete account. Please try again later.');
     }

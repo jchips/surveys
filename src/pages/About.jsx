@@ -51,7 +51,6 @@ const About = () => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    // flex: 1,
     alignItems: 'center',
     padding: 20,
     paddingTop: 15,
@@ -98,7 +97,6 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.small,
   },
   credits: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },

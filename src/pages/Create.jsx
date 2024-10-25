@@ -90,7 +90,6 @@ const Create = ({ navigation }) => {
       const surveyBody = {
         createdBy: user.username,
         title: formData.surveyTitle,
-        // questions: questions,
         responders: [],
       };
 

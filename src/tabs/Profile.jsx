@@ -109,7 +109,7 @@ const Profile = () => {
         </Text>
         <Text style={app.text}>
           <Text style={app.boldText}>Account type: </Text>
-          {user.role}
+          <Text style={styles.userRole}>{user.role}</Text>
         </Text>
         <Text style={app.text}>
           <Text style={app.boldText}>Account created: </Text>
@@ -166,6 +166,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  userRole: {
+    textTransform: 'capitalize',
   },
   button: {
     ...app.button,
