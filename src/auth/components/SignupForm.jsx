@@ -49,7 +49,10 @@ const SignupForm = ({ showToast }) => {
     );
   };
 
-  // Submits the user's sign up information
+  /**
+   * Submits the user's sign up information
+   * @param {Object} formData - User's signup responses
+   */
   const onSubmit = async (formData) => {
     try {
       setIsLoading(true);

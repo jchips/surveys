@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightBG,
   },
   buttons: {
-    // justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     margin: 5,

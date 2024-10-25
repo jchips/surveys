@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import app from '../styles/default';
+import card from '../styles/card';
 import { BORDER, FONT, FONTSIZE } from '../styles/constants/styles';
 import COLORS from '../styles/constants/colors';
-import card from '../styles/card';
 
 const Graph = ({ route }) => {
   const { responses, survey } = route.params;
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   switch: {
     flexDirection: 'row',
-    // margin: 10,
+    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -264,13 +264,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     margin: 3,
     borderRadius: BORDER.radius,
-    // backgroundColor: COLORS.verylight,
   },
   legendItem: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 12,
-    // width: '50%',
   },
   legendColor: {
     height: 25,

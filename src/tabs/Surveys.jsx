@@ -74,7 +74,7 @@ const Surveys = ({ navigation }) => {
 
   // Created survey
   const renderItem = ({ item }) => {
-    const questions = item.qs; // change to questions later
+    const questions = item.qs;
     return (
       <Pressable
         style={styles.item}

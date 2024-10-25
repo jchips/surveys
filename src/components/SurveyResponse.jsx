@@ -15,7 +15,6 @@ import MultiChoiceResponse from './MultiChoiceResponse';
 import showToast from '../util/showToast';
 import api from '../util/apiService';
 import app from '../styles/default';
-import COLORS from '../styles/constants/colors';
 
 const SurveyResponse = ({ navigation, route }) => {
   const {
@@ -47,9 +46,6 @@ const SurveyResponse = ({ navigation, route }) => {
 
   // Set up bearer auth for user
   useEffect(() => {
-    // if (user.token) {
-    //   api.setAuthorizationHeader(user.token);
-    // }
     api.setTokenGetter(() => user?.token);
   }, [user]);
 
@@ -95,7 +91,6 @@ const SurveyResponse = ({ navigation, route }) => {
         createdBy,
         response: finalFormData,
       };
-      // console.log('responseBody:', responseBody); // delete later
       await api.postResponse(responseBody);
       await api.postResponder({
         user_id: user.id,
