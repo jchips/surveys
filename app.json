@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "surveys",
+    "name": "Surveys",
     "slug": "surveys",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/adaptive-icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/fg-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundImage": "./assets/bg-icon.png"
       },
       "userInterfaceStyle": "automatic",

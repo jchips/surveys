@@ -124,7 +124,7 @@ const SurveyResponse = ({ navigation, route }) => {
           control={control}
           index={index}
           errors={errors}
-          choices={question.multiChoiceOptions.split(',')}
+          choices={question.multiChoiceOptions.split(', ')}
         />
       )}
       <View style={styles.buttons}>
