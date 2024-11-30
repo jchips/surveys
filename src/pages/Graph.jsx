@@ -52,9 +52,10 @@ const Graph = ({ route }) => {
       responses.forEach((response) => {
         let radioGroupQIndex = `radioGroup${multiChoiceQs[qIndex].index + 1}`;
         // if radio group index matches the option index
+        // only parse with MySQL db (not PostgreSQL)
         if (
-          response.response[radioGroupQIndex] != null &&
-          response.response[radioGroupQIndex] === i
+          JSON.parse(response.response)[radioGroupQIndex] != null &&
+          JSON.parse(response.response)[radioGroupQIndex] === i
         ) {
           count++;
         }
