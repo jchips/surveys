@@ -90,7 +90,6 @@ const Create = ({ navigation }) => {
       const surveyBody = {
         createdBy: user.username,
         title: formData.surveyTitle,
-        responders: [],
       };
 
       await api.postSurvey({ surveyBody, questions: questions });

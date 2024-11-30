@@ -71,7 +71,7 @@ const ViewResponse = ({ navigation, route }) => {
 
   // Response card
   const renderItem = ({ item }) => {
-    const response = item.response;
+    const response = JSON.parse(item.response); // only parse with MySQL db (not PostgreSQL)
     return (
       <View style={[card.container, styles.card]}>
         <View style={styles.cardHeader}>

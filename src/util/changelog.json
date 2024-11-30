@@ -1,5 +1,11 @@
 [
   {
+    "version": "1.0.1",
+    "changes": [
+      "Software improvements"
+    ]
+  },
+  {
     "version": "1.0.0",
     "changes": [
       "Username validation",

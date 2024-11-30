@@ -1,12 +1,12 @@
 # Surveys
 
-**Discover insights with ease!** Introducing *Surveys*, the mobile app for IOS and Android where curiosity meets simplicity. With the Surveys app, users can create and share surveys on any topic—whether it’s gathering opinions, crowd-sourcing ideas, or simply having fun. Respondents answer a mix of multiple-choice or text-based questions, and they have the option to remain anonymous for added privacy.
+**Discover insights with ease!** Introducing *Surveys*, the mobile app for IOS and Android where curiosity meets simplicity. With the Surveys app, users can create and share surveys on any topic—whether it’s gathering opinions, crowd-sourcing ideas, or simply having fun. Respondents answer a mix of multiple-choice or text-based surveys, and they have the option to remain anonymous for added privacy.
 
 **What sets Surveys apart?** Creators gain instant access to detailed results, including auto-generated pie graphs for a clear visual breakdown of the responses to their surveys. From casual polls to in-depth feedback, the Surveys app offers the perfect space for connection and data-driven insights in a simple, privacy-conscious platform.
 
 ## Creator & developer: Jelani R
 
-## Version: 1.0.0
+## Version: 1.0.1
 
 <img src='./assets/icon.png' alt='Surveys app icon' width='200'/>
 
@@ -14,7 +14,9 @@
 
 This project is built with React Native using Expo. The language used is JavaScript.
 
-The backend for this project is [here](https://github.com/Jchips/surveys-api). It uses Nodejs, Express, PostgreSql, JWT, and Sequelize.
+The backend for this project is [here](https://github.com/Jchips/surveys-api). It uses Nodejs, Express, MySQL or PostgreSql (either is supported), JWT, and Sequelize.
+
+*to switch to using PostgreSQL, search for 'PostgreSQL' throughout all files and then follow directions from the comments for each result that shows up. Currently using a MySQL db.
 
 ## App Images
 
@@ -100,6 +102,7 @@ Admins have the ability to permanently delete users (with the exception of other
 
 ## Changelog
 
+- 1.0.1 (11-29-2024, 9:19pm) - Switched to support MySQL database.
 - 1.0.0 (10-22-2024, 12:34am) - Refactored database. Users can permanently delete their accounts. Admins can delete users' accounts.
 - 0.1.2 (10-16-2024, 2:48am) - About page, dark theme graphs. changed font, added loading symbol.
 - 0.1.1 (10-12-2024, 2:40am) - Creators can now delete surveys that they created. This will delete the survey for everyone.
