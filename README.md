@@ -1,8 +1,16 @@
 # Surveys
 
-**Discover insights with ease!** Introducing *Surveys*, the mobile app for IOS and Android where curiosity meets simplicity. With the Surveys app, users can create and share surveys on any topic—whether it’s gathering opinions, crowd-sourcing ideas, or simply having fun. Respondents answer a mix of multiple-choice or text-based surveys, and they have the option to remain anonymous for added privacy.
+**Get insights, the easy way!**
 
-**What sets Surveys apart?** Creators gain instant access to detailed results, including auto-generated pie graphs for a clear visual breakdown of the responses to their surveys. From casual polls to in-depth feedback, the Surveys app offers the perfect space for connection and data-driven insights in a simple, privacy-conscious platform.
+Meet **Surveys** — the fun, easy-to-use iOS and Android app that lets you create and share surveys on anything you’re curious about.
+
+> Whether you’re collecting opinions, brainstorming ideas, or just having fun, Surveys makes it simple.
+
+Other app users can answer your surveys using multiple choice or text, and they can stay anonymous if they want to.
+
+**Why choose Surveys?**
+
+You get instant results, with clear pie charts to help you see what people think at a glance.
 
 ## Creator & developer: Jelani R
 
