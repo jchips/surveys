@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View, Text, FlatList, Linking } from 'react-native';
 import changelog from '../util/changelog.json';
 import app from '../styles/default';
@@ -12,7 +11,7 @@ const About = () => {
       <View style={{ flex: 1 }}>
         <View style={[card.container, styles.cardContainer]}>
           <Text style={styles.title}>Surveys</Text>
-          <Text style={styles.subTitle}>Version 1.0.0</Text>
+          <Text style={styles.subTitle}>Version 1.0.1</Text>
         </View>
         <View style={styles.changelog}>
           <Text style={[card.title, styles.cardTitle]}>Changelog</Text>
@@ -36,7 +35,7 @@ const About = () => {
       </View>
       <View style={styles.credits}>
         <Text style={[app.text, styles.creditsText]}>
-          &copy; Jelani R. Icons by{' '}
+          &copy; Jrotech. Icons by{' '}
         </Text>
         <Text
           style={[app.text, styles.creditsText, styles.link]}
